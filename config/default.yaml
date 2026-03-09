@@ -95,9 +95,9 @@ whale_strategy:
   # Max hold days before force-closing at CLOB price (0 = disabled)
   max_hold_days: 0
 
-  # Bayesian shrinkage: Beta-Binomial prior (α=2, β=2 → prior mean 0.50, effective sample 4)
-  bayes_prior_alpha: 2.0
-  bayes_prior_beta: 2.0
+  # Bayesian shrinkage: Beta-Binomial prior (α=4, β=4 → prior mean 0.50, effective sample 8)
+  bayes_prior_alpha: 4.0
+  bayes_prior_beta: 4.0
 
   # Recency decay: exponential half-life for weighting historical trades (0 = disabled)
   recency_halflife_days: 90.0
@@ -108,7 +108,7 @@ whale_strategy:
   ic_score_weight: 0.20
 
   # Scheduled TTR filter: skip entries with fewer than N days to scheduled close (0 = disabled)
-  min_ttr_entry_days: 3
+  min_ttr_entry_days: 0
 
   # Partial exit: close fraction of position when gain exceeds threshold (0 = disabled)
   partial_exit_gain_threshold: 0.40

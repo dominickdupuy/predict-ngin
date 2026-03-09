@@ -24,7 +24,7 @@ MIN_WHALE_SCORE = 6.0
 WHALE_CRITERIA = {
     "min_position_size": 50_000,  # USD
     "min_market_liquidity": 100_000,
-    "max_time_to_resolution": 90,  # days
+    "max_time_to_resolution": 180,  # days
     "min_whale_historical_trades": 10,
 }
 

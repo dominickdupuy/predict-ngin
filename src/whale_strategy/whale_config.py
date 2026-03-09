@@ -67,8 +67,8 @@ class WhaleConfig:
     # Bayesian shrinkage: Beta-Binomial prior (α, β). Prior mean = α/(α+β) = 0.50.
     # With α=β=2, effective prior sample size = 4; shrinks toward 50%.
     # Corrects winner's curse: a true-50% whale passes 8/10 resolved-trade bar with 17% probability.
-    bayes_prior_alpha: float = 2.0
-    bayes_prior_beta: float = 2.0
+    bayes_prior_alpha: float = 4.0
+    bayes_prior_beta: float = 4.0
 
     # Recency decay: exponential half-life in days for weighting training-period trades.
     # 90 days ≈ one quarter — stable enough for statistics, short enough to adapt.
@@ -84,8 +84,8 @@ class WhaleConfig:
 
     # Scheduled TTR filter: skip entry when scheduled close date is fewer than N days away.
     # Uses endDateIso/endDate (published schedule, known at trade time), NOT closedTime.
-    # 3-day minimum avoids last-minute noise trades that lack informed conviction.
-    min_ttr_entry_days: int = 3
+    # Set to 0 to disable.
+    min_ttr_entry_days: int = 0
 
     # Partial exit: when unrealized gain >= threshold, close fraction of the position.
     # Locks in profit on large winners and protects against mean-reversion.

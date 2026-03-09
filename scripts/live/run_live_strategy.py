@@ -343,6 +343,28 @@ def query_live_spread(token_id: str, session: requests.Session) -> float:
         return 0.0
 
 
+def query_market_price(condition_id: str, session: requests.Session) -> Optional[float]:
+    """Get current YES price from Gamma outcomePrices. Returns None on failure."""
+    try:
+        resp = session.get(
+            f"{GAMMA_API}/markets",
+            params={"conditionId": condition_id, "limit": 1},
+            timeout=8,
+        )
+        resp.raise_for_status()
+        data = resp.json()
+        if data:
+            prices = data[0].get("outcomePrices") or []
+            if isinstance(prices, str):
+                import ast
+                prices = ast.literal_eval(prices)
+            if prices:
+                return float(prices[0])
+    except Exception:
+        pass
+    return None
+
+
 def process_signal(
     signal: dict,
     state: StrategyState,
@@ -355,6 +377,7 @@ def process_signal(
     log_path: Path,
     dry_run: bool,
     max_entry_spread: float,
+    market_supporting_whales: Optional[Dict[str, Set[str]]] = None,
 ) -> bool:
     """
     Size a confirmed signal and submit to paper trader or live order router.
@@ -367,9 +390,70 @@ def process_signal(
     score      = float(signal.get("whale_score", 7.0))
     wr         = float(signal.get("whale_winrate", 0.5))
 
-    # Already have a position in this market?
-    if any(p.market_id == mid for p in state.positions):
-        return False
+    # Check for existing position in this market
+    existing_pos = next((p for p in state.positions if p.market_id == mid), None)
+    side_upper = "BUY" if direction == "buy" else "SELL"
+
+    if existing_pos is not None:
+        supporters = market_supporting_whales or {}
+        if existing_pos.side == side_upper:
+            # Same direction: layer up position size
+            supporters.setdefault(mid, set()).add(whale_addr)
+            add_size = calculate_position_size(
+                WhaleSignal(
+                    market_id=mid, category=signal.get("category", ""),
+                    whale_address=whale_addr, side=side_upper, price=price,
+                    size_usd=0.0, score=score,
+                    datetime=pd.Timestamp.now(tz="UTC"), historical_winrate=wr,
+                ),
+                state,
+                market_liquidity.get(mid, float(signal.get("market_liquidity", 100_000))),
+            )
+            if add_size and add_size >= 1_000 and state.available() >= add_size:
+                if existing_pos.side == "BUY":
+                    old_shares = existing_pos.size_usd / max(existing_pos.entry_price, 1e-6)
+                    new_shares = add_size / max(price, 1e-6)
+                    existing_pos.size_usd += add_size
+                    existing_pos.entry_price = existing_pos.size_usd / (old_shares + new_shares)
+                else:
+                    old_no = max(1.0 - existing_pos.entry_price, 1e-6)
+                    new_no = max(1.0 - price, 1e-6)
+                    old_shares = existing_pos.size_usd / old_no
+                    new_shares = add_size / new_no
+                    existing_pos.size_usd += add_size
+                    existing_pos.entry_price = 1.0 - (existing_pos.size_usd / (old_shares + new_shares))
+                state.category_exposure[existing_pos.category] = (
+                    state.category_exposure.get(existing_pos.category, 0) + add_size
+                )
+                state.market_exposure[mid] = existing_pos.size_usd
+                state.whale_exposure[whale_addr] = state.whale_exposure.get(whale_addr, 0) + add_size
+                _save_positions(state, state_path)
+                _log_trade(log_path, {**signal, "action": "LAYER_UP", "add_size": add_size,
+                                       "new_total": existing_pos.size_usd})
+                print(f"  LAYER   {signal.get('market_title', mid[:30])}  +${add_size:,.0f}  "
+                      f"total=${existing_pos.size_usd:,.0f}")
+            return False
+        else:
+            # Opposite direction
+            if whale_addr in supporters.get(mid, set()):
+                # A supporting whale is reversing — remove from supporter set
+                supporters[mid].discard(whale_addr)
+                if not supporters.get(mid):
+                    # No supporters left: exit position
+                    current_price = query_market_price(mid, session) or price
+                    close_position(mid, current_price, "WHALE_EXIT",
+                                   state, paper_trader, state_path, log_path)
+                    supporters.pop(mid, None)
+            else:
+                # Non-supporter conflicting signal: close and flip
+                current_price = query_market_price(mid, session) or price
+                close_position(mid, current_price, "CONFLICTING_SIGNAL",
+                               state, paper_trader, state_path, log_path)
+                # Fall through to open new position below
+                existing_pos = None
+
+        if existing_pos is not None:
+            return False
 
     # Resolve token IDs from Gamma
     token_info = get_token_ids(mid, session)
@@ -441,6 +525,8 @@ def process_signal(
         whale_winrate=wr,
     )
     state.positions.append(pos)
+    if market_supporting_whales is not None:
+        market_supporting_whales[mid] = {whale_addr}
     state.category_exposure[pos.category] = state.category_exposure.get(pos.category, 0) + size
     state.whale_exposure[whale_addr]       = state.whale_exposure.get(whale_addr, 0) + size
     state.market_exposure[mid]             = size
@@ -524,6 +610,7 @@ def polling_loop(
     alerts      = 0
     risk_paused = False
     last_whale_refresh = time.time()
+    market_supporting_whales: Dict[str, Set[str]] = {}
 
     def _on_resolved(mid: str, winner: str):
         pos = next((p for p in state.positions if p.market_id == mid), None)
@@ -534,6 +621,7 @@ def polling_loop(
         else:
             exit_price = 1.0 if winner == "NO" else 0.0
         close_position(mid, exit_price, f"RESOLVED_{winner}", state, paper_trader, state_path, log_path)
+        market_supporting_whales.pop(mid, None)
 
     resolution_monitor = ResolutionMonitor(state, session, _on_resolved, poll_interval=300)
     resolution_monitor.start()
@@ -628,11 +716,44 @@ def polling_loop(
                             sig, state, market_liquidity, cfg, session,
                             paper_trader, order_router, state_path, log_path,
                             dry_run, max_entry_spread,
+                            market_supporting_whales=market_supporting_whales,
                         )
                         if opened:
                             alerts += 1
 
             last_ts = new_last_ts
+
+            # --- Partial exit: close 50% of position when gain >= threshold ---
+            for pos in list(state.positions):
+                if pos.partial_exit_done:
+                    continue
+                current_price = query_market_price(pos.market_id, session)
+                if current_price is None:
+                    continue
+                if pos.side == "BUY":
+                    gain = (current_price - pos.entry_price) / max(pos.entry_price, 1e-6)
+                else:
+                    gain = (pos.entry_price - current_price) / max(1.0 - pos.entry_price, 1e-6)
+                if gain >= cfg.partial_exit_gain_threshold:
+                    half = pos.size_usd * cfg.partial_exit_fraction
+                    pos.size_usd -= half
+                    pos.partial_exit_done = True
+                    state.category_exposure[pos.category] = max(
+                        0, state.category_exposure.get(pos.category, 0) - half
+                    )
+                    state.market_exposure[pos.market_id] = pos.size_usd
+                    state.whale_exposure[pos.whale_address] = max(
+                        0, state.whale_exposure.get(pos.whale_address, 0) - half
+                    )
+                    _save_positions(state, state_path)
+                    _log_trade(log_path, {
+                        "action": "PARTIAL_EXIT", "market_id": pos.market_id,
+                        "exit_price": current_price, "size_closed": half,
+                        "gain": gain,
+                    })
+                    print(f"  PARTIAL {pos.market_id[:30]}  gain={gain:.1%}  "
+                          f"closed ${half:,.0f}, remaining ${pos.size_usd:,.0f}")
+
             elapsed = time.time() - poll_start
             ts_s = datetime.now().strftime("%H:%M:%S")
             buf_stats = buffer.stats()

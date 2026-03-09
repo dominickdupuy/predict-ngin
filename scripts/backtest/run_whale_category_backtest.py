@@ -679,6 +679,9 @@ def run_whale_category_backtest(
     open_positions = {}
     closed_trades = []
     cost_model = DEFAULT_COST_MODEL
+    # Per-market set of whale addresses currently supporting our open position.
+    # Used to detect whale exits: if a supporting whale reverses and no others remain, we exit.
+    market_supporting_whales: Dict[str, set] = {}
 
     def _pos_meta(pos: Position, exit_mid: str) -> dict:
         """Extra columns for manual verification of a closed trade."""
@@ -777,6 +780,7 @@ def run_whale_category_backtest(
             state.category_exposure[pos.category] = state.category_exposure.get(pos.category, 0) - pos.size_usd
             state.whale_exposure[pos.whale_address] = state.whale_exposure.get(pos.whale_address, 0) - pos.size_usd
             state.market_exposure.pop(mid, None)
+            market_supporting_whales.pop(mid, None)
 
         # 1b. Partial exit: lock in gains when unrealized gain >= threshold.
         # Closes partial_exit_fraction of the position once per position.
@@ -833,38 +837,92 @@ def run_whale_category_backtest(
                     continue
                 if active_scores:
                     sig.score = active_scores.get(sig.whale_address, sig.score)
+                if sig.score < MIN_WHALE_SCORE:
+                    continue  # Weekly score override can lower a signal below the threshold
                 if active_winrates:
                     sig.historical_winrate = active_winrates.get(sig.whale_address, sig.historical_winrate)
             mid = sig.market_id
             if mid in open_positions:
                 pos = open_positions[mid]
-                if pos.side != sig.side:
-                    # Conflicting: close and flip
-                    clob_price = price_store.price_at_or_before(mid, current_date)
-                    if clob_price is None:
-                        continue
-                    if pos.side == "BUY":
-                        exit_price = clob_price
-                        gross = (exit_price - pos.entry_price) * (pos.size_usd / pos.entry_price)
-                    else:
-                        exit_price = 1.0 - clob_price  # NO price
-                        entry_no = 1.0 - pos.entry_price
-                        gross = (exit_price - entry_no) * (pos.size_usd / max(entry_no, 1e-6))
-                    closed_trades.append({
-                        "market_id": mid, "entry_date": pos.entry_date, "exit_date": current_date,
-                        "direction": pos.side, "entry_price": pos.entry_price, "exit_price": exit_price,
-                        "gross_pnl": gross, "net_pnl": gross * 0.97, "position_size": pos.size_usd,
-                        "whale_address": pos.whale_address, "category": pos.category,
-                        "reason": "CONFLICTING_SIGNAL",
-                        **_pos_meta(pos, mid),
-                    })
-                    open_positions.pop(mid)
-                    state.positions = [p for p in state.positions if p.market_id != mid]
-                    state.category_exposure[pos.category] = state.category_exposure.get(pos.category, 0) - pos.size_usd
-                    state.whale_exposure[pos.whale_address] = state.whale_exposure.get(pos.whale_address, 0) - pos.size_usd
-                    state.market_exposure.pop(mid, None)
+                if pos.side == sig.side:
+                    # Agreeing signal: track whale as supporter and layer onto position if room.
+                    market_supporting_whales.setdefault(mid, set()).add(sig.whale_address)
+                    add_size = calculate_position_size(sig, state, market_liquidity.get(mid, 100_000))
+                    if add_size is not None and add_size >= 1000 and state.available() >= add_size:
+                        if pos.side == "BUY":
+                            old_shares = pos.size_usd / max(pos.entry_price, 1e-6)
+                            new_shares = add_size / max(sig.price, 1e-6)
+                            pos.size_usd += add_size
+                            pos.entry_price = pos.size_usd / (old_shares + new_shares)
+                        else:
+                            old_no_price = max(1.0 - pos.entry_price, 1e-6)
+                            new_no_price = max(1.0 - sig.price, 1e-6)
+                            old_no_shares = pos.size_usd / old_no_price
+                            new_no_shares = add_size / new_no_price
+                            pos.size_usd += add_size
+                            pos.entry_price = 1.0 - (pos.size_usd / (old_no_shares + new_no_shares))
+                        state.category_exposure[pos.category] = state.category_exposure.get(pos.category, 0) + add_size
+                        state.whale_exposure[pos.whale_address] = state.whale_exposure.get(pos.whale_address, 0) + add_size
+                        state.market_exposure[mid] = state.market_exposure.get(mid, 0) + add_size
+                    continue  # Position already open, don't re-enter below
                 else:
-                    continue  # Same side, skip
+                    # Opposing signal.
+                    if sig.whale_address in market_supporting_whales.get(mid, set()):
+                        # A whale who supported our position is reversing — reduce conviction.
+                        market_supporting_whales[mid].discard(sig.whale_address)
+                        if not market_supporting_whales.get(mid):
+                            # No supporters left: exit position (whale exit).
+                            clob_price = price_store.price_at_or_before(mid, current_date)
+                            if clob_price is None:
+                                clob_price = pos.entry_price
+                            if pos.side == "BUY":
+                                exit_price = clob_price
+                                gross = (exit_price - pos.entry_price) * (pos.size_usd / max(pos.entry_price, 1e-6))
+                            else:
+                                exit_price = 1.0 - clob_price
+                                entry_no = 1.0 - pos.entry_price
+                                gross = (exit_price - entry_no) * (pos.size_usd / max(entry_no, 1e-6))
+                            closed_trades.append({
+                                "market_id": mid, "entry_date": pos.entry_date, "exit_date": current_date,
+                                "direction": pos.side, "entry_price": pos.entry_price, "exit_price": exit_price,
+                                "gross_pnl": gross, "net_pnl": gross * 0.97, "position_size": pos.size_usd,
+                                "whale_address": pos.whale_address, "category": pos.category,
+                                "reason": "WHALE_EXIT",
+                                **_pos_meta(pos, mid),
+                            })
+                            open_positions.pop(mid)
+                            state.positions = [p for p in state.positions if p.market_id != mid]
+                            state.category_exposure[pos.category] = state.category_exposure.get(pos.category, 0) - pos.size_usd
+                            state.whale_exposure[pos.whale_address] = state.whale_exposure.get(pos.whale_address, 0) - pos.size_usd
+                            state.market_exposure.pop(mid, None)
+                            market_supporting_whales.pop(mid, None)
+                        continue  # Don't flip when a supporter exits
+                    else:
+                        # New counter-whale (was not a supporter): close and flip.
+                        clob_price = price_store.price_at_or_before(mid, current_date)
+                        if clob_price is None:
+                            continue
+                        if pos.side == "BUY":
+                            exit_price = clob_price
+                            gross = (exit_price - pos.entry_price) * (pos.size_usd / pos.entry_price)
+                        else:
+                            exit_price = 1.0 - clob_price  # NO price
+                            entry_no = 1.0 - pos.entry_price
+                            gross = (exit_price - entry_no) * (pos.size_usd / max(entry_no, 1e-6))
+                        closed_trades.append({
+                            "market_id": mid, "entry_date": pos.entry_date, "exit_date": current_date,
+                            "direction": pos.side, "entry_price": pos.entry_price, "exit_price": exit_price,
+                            "gross_pnl": gross, "net_pnl": gross * 0.97, "position_size": pos.size_usd,
+                            "whale_address": pos.whale_address, "category": pos.category,
+                            "reason": "CONFLICTING_SIGNAL",
+                            **_pos_meta(pos, mid),
+                        })
+                        open_positions.pop(mid)
+                        state.positions = [p for p in state.positions if p.market_id != mid]
+                        state.category_exposure[pos.category] = state.category_exposure.get(pos.category, 0) - pos.size_usd
+                        state.whale_exposure[pos.whale_address] = state.whale_exposure.get(pos.whale_address, 0) - pos.size_usd
+                        state.market_exposure.pop(mid, None)
+                        market_supporting_whales.pop(mid, None)
 
             if mid in open_positions:
                 continue
@@ -876,15 +934,6 @@ def run_whale_category_backtest(
             # Entry price upper bound: skip near-resolved markets
             if sig.price > cfg.max_entry_yes_price:
                 continue
-
-            # Scheduled TTR filter: skip if market is scheduled to close too soon.
-            # Uses published endDateIso/endDate (known at trade time), not closedTime.
-            if cfg.min_ttr_entry_days > 0:
-                sched_end = scheduled_end_dates.get(mid)
-                if sched_end is not None:
-                    days_to_close = (pd.Timestamp(sched_end).date() - current_date.date()).days
-                    if days_to_close < cfg.min_ttr_entry_days:
-                        continue
 
             # Multi-whale confirmation
             if cfg.min_confirmation_whales > 1:
@@ -925,6 +974,7 @@ def run_whale_category_backtest(
             state.category_exposure[sig.category] = state.category_exposure.get(sig.category, 0) + size
             state.whale_exposure[sig.whale_address] = state.whale_exposure.get(sig.whale_address, 0) + size
             state.market_exposure[mid] = size
+            market_supporting_whales[mid] = {sig.whale_address}
 
     # Close remaining at last date
     if test_dates:
