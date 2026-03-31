@@ -1,0 +1,9 @@
+{
+  "issues": [],
+  "missing_columns": [],
+  "rows_missing_pnl": 0,
+  "rows_invalid_prices": 0,
+  "rows_negative_holding": 0,
+  "rows_missing_times": 0,
+  "duplicate_markets": 0
+}

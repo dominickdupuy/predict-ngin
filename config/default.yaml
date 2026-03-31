@@ -114,6 +114,20 @@ whale_strategy:
   partial_exit_gain_threshold: 0.40
   partial_exit_fraction: 0.50
 
+  # Per-category directional price gate overrides.
+  # Each entry: [min_buy_yes_price, max_sell_yes_price]
+  # Falls back to global min_buy_yes_price / max_sell_yes_price when category absent.
+  # Original 5 cats are safe at 0.70/0.30 (no losers in backtest).
+  # Politics had losers at YES 0.31-0.41 so kept at tight 0.80/0.20.
+  category_price_gates:
+    Art_and_Culture: [0.70, 0.30]
+    Climate_and_Science: [0.70, 0.30]
+    Economy: [0.70, 0.30]
+    Finance: [0.70, 0.30]
+    Geopolitics: [0.80, 0.20]
+    Other: [0.80, 0.20]
+    Politics: [0.80, 0.20]
+
 # =============================================================================
 # STRATEGIES
 # =============================================================================

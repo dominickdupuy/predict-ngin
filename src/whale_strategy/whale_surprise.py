@@ -412,6 +412,7 @@ def compute_whale_ic(
     min_trades: int = 5,
     trader_col: str = "maker",
     direction_col: str = "maker_direction",
+    max_horizon_date: Optional[pd.Timestamp] = None,
 ) -> Dict[str, float]:
     """
     Compute per-whale Information Coefficient (IC) from training trades.
@@ -431,6 +432,8 @@ def compute_whale_ic(
         min_trades: Minimum trades to compute IC
         trader_col: Column name for trader address
         direction_col: Column name for direction (buy/sell)
+        max_horizon_date: Cap horizon lookups to this date to avoid test-period leakage.
+            Should be set to the train/test split date. If None, no cap is applied.
 
     Returns:
         Dict[whale_address, ic_score] where ic_score in [0.0, 1.0], 0.50 = random
@@ -439,7 +442,10 @@ def compute_whale_ic(
     df["_mid"] = df["market_id"].astype(str).str.strip().str.replace(".0", "", regex=False)
     df["_dir"] = df[direction_col].str.lower()
     df["_price"] = df["price"].astype(float)
-    df["_horizon_date"] = df["datetime"] + pd.Timedelta(days=horizon_days)
+    horizon_dates = df["datetime"] + pd.Timedelta(days=horizon_days)
+    if max_horizon_date is not None:
+        horizon_dates = horizon_dates.clip(upper=pd.Timestamp(max_horizon_date))
+    df["_horizon_date"] = horizon_dates
 
     results = {}
     for whale, group in df.groupby(trader_col):

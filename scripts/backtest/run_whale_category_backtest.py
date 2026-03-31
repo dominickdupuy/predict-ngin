@@ -483,6 +483,17 @@ def run_whale_category_backtest(
                 except Exception:
                     pass
         print(f"  Rolling weekly: {len(whales)} qualified whales (positive surprise) across {len(weekly_whale_sets)} weeks")
+        # In rolling mode the per-week check (lines ~839-844) is the authoritative score gate.
+        # Assign every whale-set member a permissive score (= MIN_WHALE_SCORE) so that
+        # filter_and_score_signals lets ALL whale trades through as candidate signals.
+        # The per-week loop then replaces each signal's score with the week-specific snapshot
+        # and re-applies the MIN_WHALE_SCORE threshold, ensuring temporal correctness with
+        # no look-ahead.  Winrates use the most-recent week they appeared in.
+        whale_scores_override = {addr: MIN_WHALE_SCORE for addr in whales}
+        whale_winrates_override = {}
+        for _wk_data in weekly_whale_sets.values():
+            _w, _s, _wr = _wk_data
+            whale_winrates_override.update(_wr)
     elif use_performance_filter and resolution_winners:
         # Single train-period whale set — filter to resolutions known by split date
         split_cutoff_winners = _filter_winners_at_cutoff(
@@ -567,7 +578,7 @@ def run_whale_category_backtest(
     market_slugs: dict = {}    # market_id → slug for URL construction
     for _, row in markets_df.iterrows():
         mid = str(row.get("market_id", "")).strip().replace(".0", "")
-        liq = row.get("liquidityNum") or row.get("liquidity") or row.get("volumeNum") or row.get("volume")
+        liq = row.get("volumeClob") or row.get("liquidityNum") or row.get("liquidity") or row.get("volumeNum") or row.get("volume")
         market_liquidity[mid] = float(liq) if liq is not None else 100_000
         if not market_titles.get(mid):
             market_titles[mid] = str(row.get("question") or row.get("title") or "")
@@ -598,6 +609,7 @@ def run_whale_category_backtest(
             price_lookup_fn=price_store.price_at_or_before,
             horizon_days=cfg.ic_horizon_days,
             min_trades=cfg.ic_min_trades,
+            max_horizon_date=split_date,  # prevent leaking test-period prices into IC
         )
         if whale_ic_scores:
             # Blend IC into weekly whale scores. IC is normalized to [0, 10] same scale as surprise score.
@@ -933,6 +945,11 @@ def run_whale_category_backtest(
 
             # Entry price upper bound: skip near-resolved markets
             if sig.price > cfg.max_entry_yes_price:
+                continue
+            min_buy, max_sell = cfg.price_gates_for(sig.category)
+            if sig.side == "BUY" and sig.price < min_buy:
+                continue
+            if sig.side == "SELL" and sig.price > max_sell:
                 continue
 
             # Multi-whale confirmation
@@ -1424,6 +1441,10 @@ def main() -> int:
     parser.add_argument("--backtests-dir", type=Path, default=_project_root / "backtests", help="Directory for backtest storage and catalog.db (default: backtests/)")
     parser.add_argument("--no-rebalance", action="store_true", help="Disable monthly whale rebalancing (use single train-period whale set)")
     parser.add_argument("--max-entry-price", type=float, default=None, help="Max YES price for entry (default 0.98)")
+    parser.add_argument("--min-buy-yes-price", type=float, default=None,
+                        help="Skip BUY signals with YES price below this (default 0.0 = disabled)")
+    parser.add_argument("--max-sell-yes-price", type=float, default=None,
+                        help="Skip SELL signals with YES price above this (default 1.0 = disabled)")
     parser.add_argument("--min-confirmation-whales", type=int, default=None, help="Distinct whales required to confirm signal (default 1)")
     parser.add_argument("--confirmation-window-days", type=int, default=None, help="Rolling window for confirmation (default 7)")
     parser.add_argument("--max-hold-days", type=int, default=None, help="Force-close positions after N days (default 0=off)")
@@ -1499,6 +1520,10 @@ def main() -> int:
         whale_config.mode = "surprise_only"
     if args.max_entry_price is not None:
         whale_config.max_entry_yes_price = args.max_entry_price
+    if args.min_buy_yes_price is not None:
+        whale_config.min_buy_yes_price = args.min_buy_yes_price
+    if args.max_sell_yes_price is not None:
+        whale_config.max_sell_yes_price = args.max_sell_yes_price
     if args.min_confirmation_whales is not None:
         whale_config.min_confirmation_whales = args.min_confirmation_whales
     if args.confirmation_window_days is not None:

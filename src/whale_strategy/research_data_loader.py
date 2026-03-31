@@ -88,12 +88,32 @@ def load_research_trades(
         # Filter by min_usd
         df = df[df["usd_amount"] >= min_usd]
 
-        # Side/direction
+        # Normalize price and side to YES-token basis.
+        # Raw trade price is the price of the SPECIFIC token traded (YES or NO).
+        # outcomeIndex 0 = YES token: price IS the YES price.
+        # outcomeIndex 1 = NO token:  price is the NO price → YES price = 1 - price,
+        #                             and BUY NO = bearish (flip side to SELL), SELL NO = bullish (flip to BUY).
+        raw_price = pd.to_numeric(df.get("price", 0), errors="coerce")
+        if "outcomeIndex" in df.columns:
+            oi = pd.to_numeric(df["outcomeIndex"], errors="coerce").fillna(0)
+            is_no = oi == 1
+            yes_price = raw_price.copy()
+            yes_price[is_no] = 1.0 - raw_price[is_no]
+        else:
+            is_no = pd.Series(False, index=df.index)
+            yes_price = raw_price.copy()
+
+        # Side/direction (always in YES-token terms)
         side = df.get("side", "").fillna("").astype(str).str.upper()
         if side.isin(["BUY", "SELL"]).sum() == 0 and "outcomeIndex" in df.columns:
-            # outcomeIndex 0 = YES, 1 = NO; BUY YES, SELL NO etc.
-            side = np.where(df["outcomeIndex"] == 0, "BUY", "SELL")
+            # Fallback: outcomeIndex 0 → BUY YES, outcomeIndex 1 → SELL YES
+            side = np.where(is_no, "SELL", "BUY")
             side = pd.Series(side, index=df.index).astype(str)
+        else:
+            # Flip direction for NO-token trades: BUY NO = SELL YES, SELL NO = BUY YES
+            side = side.copy()
+            flip = is_no & side.isin(["BUY", "SELL"])
+            side[flip] = side[flip].map({"BUY": "SELL", "SELL": "BUY"})
         df["maker_direction"] = side
         df["taker_direction"] = side.map({"BUY": "SELL", "SELL": "BUY"})
 
@@ -104,7 +124,7 @@ def load_research_trades(
             df["market_id"] = df["conditionId"].astype(str).str.strip()
         else:
             df["market_id"] = df.get("market_id", "").astype(str).str.strip()
-        df["price"] = pd.to_numeric(df.get("price", 0), errors="coerce")
+        df["price"] = yes_price  # always YES-token price
         df["datetime"] = pd.to_datetime(
             pd.to_numeric(df.get("timestamp", 0), errors="coerce"), unit="s", errors="coerce"
         )
@@ -259,11 +279,15 @@ class ResearchPriceStore:
             trades_path = self.research_dir / cat / "trades.parquet"
             if not trades_path.exists():
                 continue
-            df = pd.read_parquet(trades_path, columns=["conditionId", "timestamp", "price"])
+            df = pd.read_parquet(trades_path)
             df = df.dropna(subset=["conditionId", "timestamp", "price"])
             df["conditionId"] = df["conditionId"].astype(str).str.strip()
             df["timestamp"] = pd.to_numeric(df["timestamp"], errors="coerce")
             df["price"] = pd.to_numeric(df["price"], errors="coerce")
+            # Normalize to YES price: if outcomeIndex==1 (NO token), yes_price = 1 - price
+            if "outcomeIndex" in df.columns:
+                oi = pd.to_numeric(df["outcomeIndex"], errors="coerce").fillna(0)
+                df.loc[oi == 1, "price"] = 1.0 - df.loc[oi == 1, "price"]
             df = df.dropna().sort_values("timestamp")
             for mid, g in df.groupby("conditionId"):
                 mid_str = str(mid).strip().replace(".0", "")

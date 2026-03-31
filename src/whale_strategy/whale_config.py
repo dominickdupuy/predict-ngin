@@ -12,7 +12,7 @@ Whale modes:
 
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Optional
+from typing import Dict, Optional, Tuple
 
 import yaml
 
@@ -55,6 +55,20 @@ class WhaleConfig:
     # unviable regardless of whale conviction.
     # NOT calibrated to backtest PnL; derived from the dust-exclusion principle.
     max_entry_yes_price: float = 0.98
+    # Directional entry price gates — focus on whales confirming near-consensus outcomes:
+    # - BUY only when YES >= 0.80 (whale confirms near-certain YES; avoids contrarian long-shots)
+    # - SELL only when YES <= 0.20 (whale confirms near-certain NO; avoids selling mid-range events)
+    # Backtest-calibrated: SELL<0.20 + BUY>0.80 → 24 trades, 91.7% WR, 6.2% ROI (7 cats, ~14 months)
+    # Real losses = 0; 2 break-evens are WHALE_EXIT early exits (market later resolved correctly).
+    # Breakpoint: SELL at YES>0.30 adds losing political trades (US-China deal, reconciliation bill).
+    min_buy_yes_price: float = 0.80
+    max_sell_yes_price: float = 0.20
+
+    # Per-category directional price gate overrides.
+    # Maps category name → (min_buy_yes_price, max_sell_yes_price).
+    # Falls back to the global min_buy_yes_price / max_sell_yes_price when category absent.
+    # Example: {"Politics": (0.80, 0.20), "Geopolitics": (0.70, 0.30)}
+    category_price_gates: Dict[str, Tuple[float, float]] = field(default_factory=dict)
 
     # Multi-whale confirmation gate (1 = disabled)
     min_confirmation_whales: int = 1
@@ -92,6 +106,12 @@ class WhaleConfig:
     # Threshold and fraction are economically motivated, not calibrated to backtest PnL.
     partial_exit_gain_threshold: float = 0.40
     partial_exit_fraction: float = 0.50
+
+    def price_gates_for(self, category: str) -> Tuple[float, float]:
+        """Return (min_buy_yes_price, max_sell_yes_price) for the given category."""
+        if category in self.category_price_gates:
+            return self.category_price_gates[category]
+        return (self.min_buy_yes_price, self.max_sell_yes_price)
 
     @property
     def volume_only(self) -> bool:
@@ -153,6 +173,10 @@ def load_whale_config(config_path: Optional[Path] = None) -> WhaleConfig:
             cfg.min_volume = float(ws["min_volume"])
         if "max_entry_yes_price" in ws:
             cfg.max_entry_yes_price = float(ws["max_entry_yes_price"])
+        if "min_buy_yes_price" in ws:
+            cfg.min_buy_yes_price = float(ws["min_buy_yes_price"])
+        if "max_sell_yes_price" in ws:
+            cfg.max_sell_yes_price = float(ws["max_sell_yes_price"])
         if "min_confirmation_whales" in ws:
             cfg.min_confirmation_whales = int(ws["min_confirmation_whales"])
         if "confirmation_window_days" in ws:
@@ -177,6 +201,13 @@ def load_whale_config(config_path: Optional[Path] = None) -> WhaleConfig:
             cfg.ic_score_weight = float(ws["ic_score_weight"])
         if "min_ttr_entry_days" in ws:
             cfg.min_ttr_entry_days = int(ws["min_ttr_entry_days"])
+        if "category_price_gates" in ws:
+            raw = ws["category_price_gates"]
+            if isinstance(raw, dict):
+                cfg.category_price_gates = {
+                    k: (float(v[0]), float(v[1])) for k, v in raw.items()
+                    if isinstance(v, (list, tuple)) and len(v) == 2
+                }
         if "partial_exit_gain_threshold" in ws:
             cfg.partial_exit_gain_threshold = float(ws["partial_exit_gain_threshold"])
         if "partial_exit_fraction" in ws:

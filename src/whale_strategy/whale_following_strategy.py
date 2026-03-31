@@ -159,10 +159,13 @@ def calculate_position_size(
     Returns None if trade should be skipped.
     """
     # Base Kelly size
-    p = _estimate_win_probability(
-        signal.score, signal.price, signal.historical_winrate,
-    )
     side = "BUY" if signal.side.upper() == "BUY" else "SELL"
+    # For BUY YES: win probability = P(YES wins) = signal.price (market prior).
+    # For SELL YES: win probability = P(NO wins) = 1 - signal.price (market prior).
+    market_win_prob = signal.price if side == "BUY" else 1.0 - signal.price
+    p = _estimate_win_probability(
+        signal.score, market_win_prob, signal.historical_winrate,
+    )
     kelly_frac = _kelly_fraction(p, signal.price, side)
     base_size = kelly_frac * state.available()
 
@@ -276,6 +279,8 @@ def filter_and_score_signals(
     if not markets_df.empty and "market_id" in markets_df.columns:
         mdf = markets_df.copy()
         mdf["_mid"] = mdf["market_id"].astype(str).str.strip()
+        # Deduplicate by market_id — same conditionId can appear in multiple categories
+        mdf = mdf.drop_duplicates(subset=["_mid"], keep="first")
         market_meta = mdf.set_index("_mid").to_dict("index")
         # Prefer cumulative volume (survives market close) over point-in-time liquidity
         liq_col = next(
@@ -348,7 +353,9 @@ def filter_and_score_signals(
         ttr = None
         meta = market_meta.get(mid, {})
         if meta:
-            end = meta.get("endDateIso") or meta.get("endDate") or meta.get("closedTime")
+            # Use only published scheduled dates — closedTime is the actual resolution
+            # time (look-ahead) and must not be used as a proxy for scheduled end date.
+            end = meta.get("endDateIso") or meta.get("endDate")
             if end:
                 try:
                     ttr = (pd.to_datetime(end) - row["datetime"]).days
