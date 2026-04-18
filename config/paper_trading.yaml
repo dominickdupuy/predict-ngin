@@ -1,0 +1,97 @@
+# Paper Trading Configuration
+# $1k capital, all strategies, position limits per market
+
+trading:
+  mode: "paper"  # paper (sim), testnet (real orders on testnet), live (mainnet)
+  initial_capital: 1000
+  strategy_weights:
+    mean_reversion: 0.33
+    momentum: 0.33
+    counter_flow: 0.34
+
+position_limits:
+  max_per_market: 250  # $250 max per single market
+  max_per_category: 500  # $500 max per category (Finance, Politics, etc)
+  max_deployed_pct: 100  # Deploy 100% of capital
+
+risk_limits:
+  daily_loss_limit: -100  # Stop if lose $100 in a day
+  monthly_loss_limit: -500  # Stop if lose $500 in month
+  max_hold_minutes: 240  # Max 4 hours hold
+  max_loss_per_trade: 250  # Max loss = position size (capped)
+
+strategies:
+  mean_reversion:
+    enabled: true
+    min_price_for_short: 0.85  # Short when YES > 85%
+    max_price_for_long: 0.15   # Long when YES < 15%
+    position_size: 250
+    timeout_minutes: 60
+
+  momentum:
+    enabled: true
+    size_percentile: 75  # Follow trades > 75th percentile
+    window_ticks: 10
+    position_size: 250
+    timeout_minutes: 30
+
+  counter_flow:
+    enabled: true
+    crowd_extreme_threshold: 0.70  # Fade when >70% on one side
+    min_trades_in_window: 10
+    position_size: 200
+    timeout_minutes: 120
+
+monitoring:
+  # Gmail alerts
+  email_alerts:
+    enabled: true
+    smtp_server: "smtp.gmail.com"
+    smtp_port: 587
+    from_email: "domdd305@gmail.com"
+    app_password: "ruxl lbzp frac bhoo"  # Gmail app-specific password
+
+    # Alert recipients
+    to_emails:
+      - "domdd305@gmail.com"
+
+    # When to alert
+    alert_on:
+      - critical_error
+      - daily_loss_limit_hit
+      - monthly_loss_limit_hit
+      - large_pnl_swing  # Alert if daily PnL changes by > $100
+      - trade_executed
+
+  # Daily report
+  daily_report:
+    enabled: true
+    send_time_utc: "18:00"  # 6 PM UTC
+    recipients:
+      - "domdd305@gmail.com"
+
+  # Logging
+  log_level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  log_file: "logs/paper_trading.log"
+  log_trades_file: "logs/trades.jsonl"
+
+data:
+  # Where to store P&L, trades, etc
+  output_dir: "data/paper_trading"
+  trade_log: "data/paper_trading/trades.parquet"
+  pnl_log: "data/paper_trading/equity.parquet"
+  reconciliation_log: "data/paper_trading/reconciliation.jsonl"
+
+wallet:
+  # Dummy wallet for paper trading
+  address: "0x0000000000000000000000000000000000000000"
+  network: "paper"  # Not used, just for reference
+
+api:
+  # Polymarket API
+  base_url: "https://gamma-api.polymarket.com"
+  timeout_seconds: 30
+
+  # Real API would go here, but paper mode doesn't use it
+  api_key: ""
+  api_secret: ""
