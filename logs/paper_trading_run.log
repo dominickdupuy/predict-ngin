@@ -1,0 +1,78 @@
+2026-04-18 03:42:31,710 [INFO] trading.paper_trading_execution.paper_trading_engine: Paper trading engine initialized: $1000 capital
+2026-04-18 03:42:31,710 [INFO] paper_trading: Paper trading engine initialized
+2026-04-18 03:42:31,781 [INFO] paper_trading: Loaded Finance: 457932 ticks
+2026-04-18 03:42:31,848 [INFO] paper_trading: Loaded Geopolitics: 527633 ticks
+2026-04-18 03:42:31,883 [INFO] paper_trading: Loaded Economy: 301050 ticks
+2026-04-18 03:42:32,089 [INFO] paper_trading: Loaded Politics: 2846319 ticks
+2026-04-18 03:42:33,553 [INFO] paper_trading: Total ticks: 1759262, date range: 1670873080 - 1771045289
+2026-04-18 03:42:33,553 [INFO] paper_trading: Starting simulation with 50 max trades
+2026-04-18 03:42:33,568 [INFO] trading.paper_trading_execution.paper_trading_engine: Trade entered: mean_reversion SELL 250 USD @ 0.96
+2026-04-18 03:42:33,568 [INFO] trading.paper_trading_execution.paper_trading_engine: Trade entered: mean_reversion BUY 250 USD @ 0.04
+2026-04-18 03:42:34,171 [INFO] trading.paper_trading_execution.paper_trading_engine: Trade exited: mean_reversion SELL PnL $2
+2026-04-18 03:42:34,171 [INFO] trading.paper_trading_execution.paper_trading_engine: Trade exited: mean_reversion BUY PnL $2
+2026-04-18 03:42:34,171 [INFO] paper_trading: Closed 2 timed-out positions
+2026-04-18 03:42:34,189 [INFO] trading.paper_trading_execution.paper_trading_engine: Trade entered: mean_reversion BUY 250 USD @ 0.00
+2026-04-18 03:42:34,189 [INFO] trading.paper_trading_execution.paper_trading_engine: Trade entered: mean_reversion SELL 250 USD @ 0.99
+2026-04-18 03:42:36,235 [INFO] trading.paper_trading_execution.paper_trading_engine: Trade exited: mean_reversion BUY PnL $2
+2026-04-18 03:42:36,235 [INFO] trading.paper_trading_execution.paper_trading_engine: Trade exited: mean_reversion SELL PnL $2
+2026-04-18 03:42:36,235 [INFO] paper_trading: Closed 2 timed-out positions
+2026-04-18 03:42:36,256 [INFO] trading.paper_trading_execution.paper_trading_engine: Trade entered: mean_reversion BUY 250 USD @ 0.03
+2026-04-18 03:42:36,256 [INFO] trading.paper_trading_execution.paper_trading_engine: Trade entered: mean_reversion SELL 250 USD @ 1.00
+2026-04-18 03:42:41,500 [INFO] trading.paper_trading_execution.paper_trading_engine: Trade exited: mean_reversion BUY PnL $2
+2026-04-18 03:42:41,500 [INFO] trading.paper_trading_execution.paper_trading_engine: Trade exited: mean_reversion SELL PnL $2
+2026-04-18 03:42:41,500 [INFO] paper_trading: Closed 2 timed-out positions
+2026-04-18 03:42:41,522 [INFO] trading.paper_trading_execution.paper_trading_engine: Trade entered: mean_reversion SELL 250 USD @ 0.95
+2026-04-18 03:42:41,522 [INFO] trading.paper_trading_execution.paper_trading_engine: Trade entered: momentum BUY 250 USD @ 0.99
+2026-04-18 03:42:56,435 [INFO] paper_trading: Closing remaining positions...
+2026-04-18 03:42:56,435 [INFO] trading.paper_trading_execution.paper_trading_engine: Trade exited: mean_reversion SELL PnL $0
+2026-04-18 03:42:56,435 [INFO] trading.paper_trading_execution.paper_trading_engine: Trade exited: momentum BUY PnL $0
+2026-04-18 03:42:56,436 [INFO] paper_trading: 
+\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557
+\u2551  PAPER TRADING DAILY REPORT                \u2551
+\u2551  2026-04-18 03:42:56              \u2551
+\u255a\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255d
+
+Capital:              $      1000
+Monthly P&L:         $        15
+ROI:                        1.5%
+Equity:              $      1015
+
+Trades:
+  Total:                      8
+  Winning:                    6
+  Losing:                     0
+  Win Rate:               75.0%
+
+P&L:
+  Total:             $        15
+  Average:           $         2
+  Max Win:           $         2
+  Max Loss:          $         0
+
+Active Positions:             0
+Status:                  ACTIVE
+
+2026-04-18 03:42:56,440 [INFO] trading.paper_trading_execution.paper_trading_engine: Trades saved: data\paper_trading\trades.parquet
+2026-04-18 03:43:01,045 [INFO] trading.paper_trading_execution.paper_trading_engine: Alert sent: Daily P&L Report
+2026-04-18 03:43:01,045 [INFO] paper_trading: Paper trading complete
+[  0.0%] Time=1670873080 Active=0 Opened=0
+[ 10.0%] Time=1730829593 Active=2 Opened=2
+[ 20.0%] Time=1735618762 Active=2 Opened=4
+[ 30.0%] Time=1744666028 Active=2 Opened=4
+[ 40.0%] Time=1750505404 Active=2 Opened=6
+[ 50.0%] Time=1757548949 Active=2 Opened=6
+[ 60.0%] Time=1762411309 Active=2 Opened=6
+[ 70.0%] Time=1765392186 Active=2 Opened=8
+[ 80.0%] Time=1767722577 Active=2 Opened=8
+[ 90.0%] Time=1769863348 Active=2 Opened=8
+[100.0%] Time=1771044945 Active=2 Opened=8
+
+======================================================================
+PAPER TRADING RESULTS
+======================================================================
+Total Trades:     8
+Win Rate:         75.0%
+Total P&L:        $15
+ROI:              1.5%
+Equity:           $1015
+======================================================================

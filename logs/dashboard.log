@@ -1,0 +1,1501 @@
+Dash is running on http://0.0.0.0:8050/
+
+ * Tip: There are .env files present. Install python-dotenv to use them.
+[DASHBOARD] Starting Paper Trading Dashboard...
+            Navigate to: http://localhost:8050
+            Press Ctrl+C to stop
+ * Serving Flask app 'paper_trading_dashboard'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8050
+ * Running on http://10.5.0.2:8050
+Press CTRL+C to quit
+127.0.0.1 - - [18/Apr/2026 03:42:50] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:42:50] "GET /_dash-component-suites/dash/deps/polyfill@7.v4_1_0m1776498080.12.1.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:42:50] "GET /_dash-component-suites/dash/deps/react@18.v4_1_0m1776498080.3.1.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:42:50] "GET /_dash-component-suites/dash/deps/prop-types@15.v4_1_0m1776498080.8.1.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:42:50] "GET /_dash-component-suites/dash/dcc/dash_core_components.v4_1_0m1776498080.js HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:42:50] "GET /_dash-component-suites/dash/deps/react-dom@18.v4_1_0m1776498080.3.1.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:42:50] "GET /_dash-component-suites/dash/dash-renderer/build/dash_renderer.v4_1_0m1776498080.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:42:50] "GET /_dash-component-suites/dash/dcc/dash_core_components-shared.v4_1_0m1776498080.js HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:42:51] "GET /_dash-component-suites/dash/html/dash_html_components.v4_1_0m1776498080.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:42:51] "GET /_dash-component-suites/dash/dash_table/bundle.v7_1_0m1776498080.js HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:42:51] "GET /_dash-layout HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:42:51] "GET /_dash-dependencies HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:42:51] "GET /_favicon.ico?v=4.1.0 HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:42:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:42:51] "GET /_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:42:52] "GET /_dash-component-suites/plotly/package_data/plotly.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:42:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:43:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:43:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:43:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:43:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:43:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:43:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:43:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:43:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:43:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:43:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:43:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:43:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:44:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:44:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:44:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:44:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:44:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:44:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:44:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:44:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:44:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:44:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:44:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:44:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:45:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:45:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:45:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:45:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:45:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:45:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:45:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:45:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:45:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:45:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:45:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:45:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:46:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:46:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:46:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:46:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:46:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:46:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:46:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:46:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:46:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:46:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:46:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:46:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:47:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:47:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:47:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:47:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:47:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:47:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:47:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:47:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:47:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:47:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:47:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:47:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:48:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:48:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:48:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:48:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:48:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:48:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:48:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:48:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:48:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:48:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:48:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:48:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:49:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:49:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:49:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:49:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:49:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:49:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:49:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:49:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:49:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:49:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:49:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:49:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:50:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:50:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:50:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:50:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:50:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:50:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:50:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:50:36] "POST /_dash-update-component HTTP/1.1" 200 -
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+127.0.0.1 - - [18/Apr/2026 03:50:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:50:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:50:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:50:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:51:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:51:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:51:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:51:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:51:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:51:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:51:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:51:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:51:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:51:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:51:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:51:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:52:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:52:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:52:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:52:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:52:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:52:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:52:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:52:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:52:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:52:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:52:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:52:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:53:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:53:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:53:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:53:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:53:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:53:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:53:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:53:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:53:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:53:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:53:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:53:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:54:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:54:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:54:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:54:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:54:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:54:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:54:31] "POST /_dash-update-component HTTP/1.1" 200 -
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+127.0.0.1 - - [18/Apr/2026 03:54:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:54:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:54:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:54:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:54:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:55:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:55:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:55:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:55:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:55:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:55:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:55:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:55:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:55:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:55:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:55:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:55:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:56:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:56:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:56:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:56:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:56:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:56:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:56:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:56:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:56:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:56:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:56:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:56:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:57:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:57:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:57:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:57:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:57:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:57:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:57:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:57:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:57:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:57:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:57:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:57:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:58:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:58:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:58:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:58:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:58:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:58:26] "POST /_dash-update-component HTTP/1.1" 200 -
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+127.0.0.1 - - [18/Apr/2026 03:58:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:58:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:58:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:58:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:58:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:58:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:59:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:59:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:59:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:59:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:59:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:59:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:59:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:59:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:59:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:59:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:59:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 03:59:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:00:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:00:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:00:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:00:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:00:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:00:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:00:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:00:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:00:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:00:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:00:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:00:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:01:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:01:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:01:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:01:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:01:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:01:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:01:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:01:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:01:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:01:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:01:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:01:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:02:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:02:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:02:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:02:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:02:21] "POST /_dash-update-component HTTP/1.1" 200 -
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+127.0.0.1 - - [18/Apr/2026 04:02:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:02:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:02:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:02:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:02:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:02:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:02:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:03:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:03:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:03:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:03:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:03:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:03:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:03:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:03:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:03:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:03:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:03:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:03:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:04:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:04:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:04:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:04:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:04:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:04:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:04:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:04:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:04:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:04:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:04:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:04:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:05:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:05:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:05:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:05:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:05:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:05:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:05:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:05:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:05:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:05:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:05:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:05:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:06:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:06:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:06:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:06:16] "POST /_dash-update-component HTTP/1.1" 200 -
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+127.0.0.1 - - [18/Apr/2026 04:06:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:06:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:06:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:06:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:06:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:06:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:06:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:06:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:07:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:07:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:07:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:07:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:07:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:07:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:07:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:07:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:07:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:07:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:07:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:07:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:08:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:08:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:08:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:08:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:08:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:08:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:08:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:08:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:08:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:08:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:08:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:08:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:09:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:09:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:09:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:09:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:09:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:09:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:09:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:09:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:09:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:09:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:09:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:09:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:10:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:10:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:10:11] "POST /_dash-update-component HTTP/1.1" 200 -
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+127.0.0.1 - - [18/Apr/2026 04:10:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:10:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:10:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:10:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:10:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:10:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:10:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:10:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:10:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:11:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:11:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:11:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:11:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:11:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:11:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:11:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:11:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:11:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:11:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:11:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:11:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:12:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:12:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:12:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:12:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:12:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:12:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:12:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:12:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:12:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:12:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:12:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:12:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:13:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:13:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:13:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:13:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:13:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:13:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:13:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:13:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:13:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:13:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:13:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:13:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:14:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:14:06] "POST /_dash-update-component HTTP/1.1" 200 -
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+127.0.0.1 - - [18/Apr/2026 04:14:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:14:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:14:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:14:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:14:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:14:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:14:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:14:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:14:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:14:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:15:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:15:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:15:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:15:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:15:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:15:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:15:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:15:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:15:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:15:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:15:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:15:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:16:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:16:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:16:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:16:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:16:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:16:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:16:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:16:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:16:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:16:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:16:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:16:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:17:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:17:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:17:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:17:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:17:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:17:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:17:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:17:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:17:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:17:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:17:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:17:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:18:01] "POST /_dash-update-component HTTP/1.1" 200 -
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+127.0.0.1 - - [18/Apr/2026 04:18:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:18:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:18:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:18:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:18:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:18:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:18:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:18:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:18:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:18:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:18:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:19:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:19:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:19:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:19:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:19:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:19:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:19:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:19:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:19:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:19:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:19:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:19:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:20:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:20:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:20:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:20:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:20:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:20:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:20:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:20:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:20:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:20:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:20:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:20:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:21:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:21:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:21:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:21:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:21:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:21:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:21:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:21:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:21:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:21:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:21:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:21:56] "POST /_dash-update-component HTTP/1.1" 200 -
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+127.0.0.1 - - [18/Apr/2026 04:22:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:22:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:22:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:22:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:22:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:22:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:22:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:22:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:22:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:22:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:22:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:22:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:23:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:23:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:23:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:23:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:23:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:23:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:23:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:23:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:23:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:23:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:23:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:23:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:24:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:24:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:24:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:24:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:24:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:24:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:24:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:24:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:24:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:24:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:24:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:24:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:25:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:25:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:25:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:25:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:25:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:25:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:25:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:25:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:25:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:25:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:25:51] "POST /_dash-update-component HTTP/1.1" 200 -
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+127.0.0.1 - - [18/Apr/2026 04:25:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:26:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:26:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:26:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:26:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:26:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:26:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:26:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:26:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:26:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:26:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:26:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:26:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:27:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:27:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:27:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:27:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:27:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:27:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:27:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:27:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:27:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:27:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:27:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:27:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:28:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:28:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:28:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:28:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:28:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:28:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:28:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:28:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:28:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:28:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:28:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:28:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:29:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:29:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:29:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:29:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:29:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:29:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:29:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:29:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:29:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:29:46] "POST /_dash-update-component HTTP/1.1" 200 -
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+127.0.0.1 - - [18/Apr/2026 04:29:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:29:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:30:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:30:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:30:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:30:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:30:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:30:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:30:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:30:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:30:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:30:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:30:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:30:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:31:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:31:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:31:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:31:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:31:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:31:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:31:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:31:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:31:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:31:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:31:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:31:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:32:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:32:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:32:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:32:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:32:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:32:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:32:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:32:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:32:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:32:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:32:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:32:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:33:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:33:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:33:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:33:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:33:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:33:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:33:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:33:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:33:41] "POST /_dash-update-component HTTP/1.1" 200 -
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+127.0.0.1 - - [18/Apr/2026 04:33:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:33:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:33:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:34:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:34:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:34:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:34:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:34:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:34:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:34:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:34:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:34:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:34:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:34:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:34:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:35:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:35:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:35:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:35:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:35:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:35:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:35:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:35:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:35:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:35:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:35:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:35:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:36:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:36:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:36:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:36:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:36:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:36:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:36:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:36:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:36:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:36:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:36:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:36:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:37:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:37:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:37:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:37:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:37:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:37:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:37:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:37:36] "POST /_dash-update-component HTTP/1.1" 200 -
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+127.0.0.1 - - [18/Apr/2026 04:37:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:37:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:37:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:37:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:38:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:38:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:38:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:38:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:38:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:38:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:38:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:38:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:38:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:38:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:38:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:38:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:39:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:39:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:39:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:39:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:39:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:39:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:39:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:39:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:39:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:39:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:39:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:39:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:40:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:40:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:40:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:40:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:40:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:40:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:40:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:40:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:40:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:40:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:40:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:40:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:41:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:41:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:41:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:41:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:41:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:41:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:41:31] "POST /_dash-update-component HTTP/1.1" 200 -
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+127.0.0.1 - - [18/Apr/2026 04:41:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:41:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:41:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:41:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:41:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:42:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:42:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:42:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:42:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:42:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:42:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:42:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:42:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:42:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:42:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:42:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:42:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:43:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:43:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:43:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:43:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:43:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:43:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:43:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:43:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:43:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:43:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:43:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:43:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:44:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:44:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:44:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:44:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:44:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:44:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:44:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:44:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:44:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:44:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:44:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:44:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:45:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:45:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:45:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:45:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:45:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:45:26] "POST /_dash-update-component HTTP/1.1" 200 -
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+Error loading equity: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+127.0.0.1 - - [18/Apr/2026 04:45:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:45:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:45:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:45:46] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:45:51] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:45:56] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:46:01] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:46:06] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:46:11] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:46:16] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:46:21] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:46:26] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:46:31] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:46:36] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:46:41] "POST /_dash-update-component HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 04:46:46] "POST /_dash-update-component HTTP/1.1" 200 -
