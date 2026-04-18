@@ -1,0 +1,14 @@
+{
+  "n_trades": 684,
+  "n_wins": 425,
+  "win_rate": 0.6213450292397661,
+  "total_net_pnl_usd": 11343.400000000001,
+  "total_return_pct": 113.43420639931803,
+  "cagr_pct": 28.30634717413174,
+  "sharpe": 1.2134527951424752,
+  "max_drawdown_pct": -59.497128598835815,
+  "avg_holding_hours": 13.251461988304094,
+  "avg_net_roi_per_trade": 0.20881451704189338,
+  "skipped_at_capacity": 4,
+  "date_range": "2023-02-13 \u2192 2026-02-28"
+}

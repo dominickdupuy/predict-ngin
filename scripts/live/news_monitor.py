@@ -152,16 +152,78 @@ class EventRegistryIngester:
 
     Rate: ~1 call per poll per mode = ~120 calls/hour at 30s interval.
     2,000 free searches ≈ ~16 hours of continuous monitoring.
+
+    Accepts one or more API keys.  Keys are rotated round-robin on every
+    request and force-rotated on 429 / quota-exceeded responses so that
+    two keys together effectively double the free monthly quota.
     """
 
-    def __init__(self, api_key: str, lookback_minutes: int = 5, session=None):
-        self.key = api_key
+    def __init__(self, api_key, lookback_minutes: int = 5, session=None):
+        # Accept a single key string or a list of keys
+        if isinstance(api_key, str):
+            self._keys = [api_key]
+        else:
+            self._keys = list(api_key)
+        self._key_idx = 0           # current key index (round-robin)
         self.lookback = lookback_minutes
         self.seen_articles: set[str] = set()
         self.seen_events: set[str] = set()
         self.s = session or requests.Session()
         self.s.headers["User-Agent"] = "polymarket-latency-arb/1.0"
         self._calls = 0
+
+    @property
+    def key(self) -> str:
+        """Current active API key."""
+        return self._keys[self._key_idx % len(self._keys)]
+
+    def _next_key(self) -> str:
+        """Advance to the next key (called after each successful call or on error)."""
+        self._key_idx = (self._key_idx + 1) % len(self._keys)
+        return self.key
+
+    def _er_get(self, endpoint: str, params) -> Optional[dict]:
+        """
+        Make a GET request to EventRegistry, rotating keys on 429 / quota errors.
+        Returns the parsed JSON or None on failure.
+        """
+        # Replace apiKey in params with the current key (works for both dict and list)
+        if isinstance(params, dict):
+            params = dict(params)
+            params["apiKey"] = self.key
+        else:
+            params = [(k, v) for k, v in params if k != "apiKey"]
+            params = [("apiKey", self.key)] + params
+
+        for attempt in range(len(self._keys)):
+            try:
+                r = self.s.get(f"{ER_BASE}/{endpoint}", params=params, timeout=20)
+                if r.status_code == 429:
+                    log.warning(f"Rate limited on key …{self.key[-8:]} — rotating to next key")
+                    if isinstance(params, dict):
+                        params["apiKey"] = self._next_key()
+                    else:
+                        params = [("apiKey", self._next_key())] + [(k, v) for k, v in params if k != "apiKey"]
+                    time.sleep(1)
+                    continue
+                r.raise_for_status()
+                data = r.json()
+                # EventRegistry returns {"error": "..."} for quota exceeded
+                if isinstance(data, dict) and data.get("error"):
+                    log.warning(f"ER quota error on key …{self.key[-8:]}: {data['error']} — rotating")
+                    if isinstance(params, dict):
+                        params["apiKey"] = self._next_key()
+                    else:
+                        params = [("apiKey", self._next_key())] + [(k, v) for k, v in params if k != "apiKey"]
+                    continue
+                self._calls += 1
+                self._next_key()   # round-robin advance after every successful call
+                return data
+            except Exception as e:
+                log.warning(f"ER request error ({endpoint}): {e}")
+                return None
+        log.warning(f"All {len(self._keys)} key(s) rate-limited — skipping this poll")
+        return None
 
     def _ts(self, dt: datetime.datetime) -> str:
         return dt.strftime("%Y-%m-%dT%H:%M:%S")
@@ -202,7 +264,7 @@ class EventRegistryIngester:
             "news/Disaster, Accident and Emergency Incident",
         ]
 
-        # Build as list of tuples for repeated keys
+        # Build as list of tuples for repeated keys (apiKey injected by _er_get)
         params = [
             ("apiKey",                self.key),
             ("lang",                  "eng"),
@@ -217,14 +279,10 @@ class EventRegistryIngester:
             ("isDuplicateFilter",     "skipDuplicates"),
             ("dateStart",             today),
         ] + [("categoryUri", c) for c in CATEGORY_URIS]
-        try:
-            r = self.s.get(f"{ER_BASE}/article/getArticles", params=params, timeout=20)
-            r.raise_for_status()
-            self._calls += 1
-            results = r.json().get("articles", {}).get("results", [])
-        except Exception as e:
-            log.warning(f"Article fetch error: {e}")
+        data = self._er_get("article/getArticles", params)
+        if data is None:
             return []
+        results = data.get("articles", {}).get("results", [])
 
         articles = []
         for raw in results:
@@ -280,14 +338,10 @@ class EventRegistryIngester:
             "includeEventLocation": True,
             "dateStart": self._ts(since),
         }
-        try:
-            r = self.s.get(f"{ER_BASE}/event/getEvents", params=params, timeout=20)
-            r.raise_for_status()
-            self._calls += 1
-            results = r.json().get("events", {}).get("results", [])
-        except Exception as e:
-            log.warning(f"Event fetch error: {e}")
+        data = self._er_get("event/getEvents", params)
+        if data is None:
             return []
+        results = data.get("events", {}).get("results", [])
 
         events = []
         for raw in results:
