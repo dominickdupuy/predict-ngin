@@ -1,0 +1,151 @@
+{
+  "liquid_threshold": {
+    "300000": {
+      "count": 197,
+      "pct_of_markets": 40.204081632653065,
+      "volume": 388366905.563462,
+      "pct_of_volume": 88.29696946029816,
+      "avg_market_size": 1971405.611997269
+    },
+    "500000": {
+      "count": 128,
+      "pct_of_markets": 26.122448979591837,
+      "volume": 361063716.756089,
+      "pct_of_volume": 82.08946621077261,
+      "avg_market_size": 2820810.287156945
+    },
+    "750000": {
+      "count": 100,
+      "pct_of_markets": 20.408163265306122,
+      "volume": 344664042.110966,
+      "pct_of_volume": 78.36092613550963,
+      "avg_market_size": 3446640.42110966
+    },
+    "1000000": {
+      "count": 81,
+      "pct_of_markets": 16.53061224489796,
+      "volume": 328767037.822915,
+      "pct_of_volume": 74.7466704354886,
+      "avg_market_size": 4058852.31880142
+    }
+  },
+  "position_size": {
+    "50": {
+      "spread_bps": 10,
+      "impact_bps": 0.12970081780003984,
+      "taker_fee_bps": 20,
+      "total_cost_bps": 30.12970081780004,
+      "cost_dollars": 0.15064850408900018
+    },
+    "100": {
+      "spread_bps": 10,
+      "impact_bps": 0.18342465558369808,
+      "taker_fee_bps": 20,
+      "total_cost_bps": 30.1834246555837,
+      "cost_dollars": 0.301834246555837
+    },
+    "250": {
+      "spread_bps": 10,
+      "impact_bps": 0.2900198453382038,
+      "taker_fee_bps": 20,
+      "total_cost_bps": 30.290019845338204,
+      "cost_dollars": 0.7572504961334551
+    },
+    "500": {
+      "spread_bps": 10,
+      "impact_bps": 0.4101499986346352,
+      "taker_fee_bps": 20,
+      "total_cost_bps": 30.410149998634637,
+      "cost_dollars": 1.5205074999317318
+    },
+    "1000": {
+      "spread_bps": 10,
+      "impact_bps": 0.5800396906764076,
+      "taker_fee_bps": 20,
+      "total_cost_bps": 30.580039690676408,
+      "cost_dollars": 3.0580039690676406
+    },
+    "2500": {
+      "spread_bps": 10,
+      "impact_bps": 0.9171232779184904,
+      "taker_fee_bps": 20,
+      "total_cost_bps": 30.917123277918492,
+      "cost_dollars": 7.729280819479624
+    },
+    "5000": {
+      "spread_bps": 10,
+      "impact_bps": 1.2970081780003984,
+      "taker_fee_bps": 20,
+      "total_cost_bps": 31.297008178000397,
+      "cost_dollars": 15.648504089000198
+    }
+  },
+  "spread": {
+    "5": {
+      "spread_bps": 5,
+      "impact_bps": 0.4,
+      "taker_fee_bps": 20,
+      "total_cost_bps": 25.4,
+      "total_cost_dollars": 1.27
+    },
+    "10": {
+      "spread_bps": 10,
+      "impact_bps": 0.4,
+      "taker_fee_bps": 20,
+      "total_cost_bps": 30.4,
+      "total_cost_dollars": 1.52
+    },
+    "15": {
+      "spread_bps": 15,
+      "impact_bps": 0.4,
+      "taker_fee_bps": 20,
+      "total_cost_bps": 35.4,
+      "total_cost_dollars": 1.77
+    },
+    "20": {
+      "spread_bps": 20,
+      "impact_bps": 0.4,
+      "taker_fee_bps": 20,
+      "total_cost_bps": 40.4,
+      "total_cost_dollars": 2.02
+    }
+  },
+  "impact_coeff": {
+    "0.0005": {
+      "impact_coeff": 0.0005,
+      "impact_bps": 0.6,
+      "spread_bps": 10,
+      "taker_fee_bps": 20,
+      "total_cost_bps": 30.6,
+      "total_cost_dollars": 15.32,
+      "impact_as_pct_of_total": 2.1
+    },
+    "0.001": {
+      "impact_coeff": 0.001,
+      "impact_bps": 1.3,
+      "spread_bps": 10,
+      "taker_fee_bps": 20,
+      "total_cost_bps": 31.3,
+      "total_cost_dollars": 15.65,
+      "impact_as_pct_of_total": 4.1
+    },
+    "0.0015": {
+      "impact_coeff": 0.0015,
+      "impact_bps": 1.9,
+      "spread_bps": 10,
+      "taker_fee_bps": 20,
+      "total_cost_bps": 31.9,
+      "total_cost_dollars": 15.97,
+      "impact_as_pct_of_total": 6.1
+    },
+    "0.002": {
+      "impact_coeff": 0.002,
+      "impact_bps": 2.6,
+      "spread_bps": 10,
+      "taker_fee_bps": 20,
+      "total_cost_bps": 32.6,
+      "total_cost_dollars": 16.3,
+      "impact_as_pct_of_total": 8.0
+    }
+  }
+}

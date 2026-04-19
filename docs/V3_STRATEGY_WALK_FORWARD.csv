@@ -1,0 +1,5 @@
+strategy,wf_folds,wf_positive_fold_fraction,wf_sharpe_stability,wf_mean_sharpe,wf_total_trades
+round_price_lp,2,1.0,0.9200328821153154,6.74272728597201,15
+calendar_butterfly,2,0.0,1.0,0.0,0
+hazard_ladder,2,0.0,1.0,0.0,0
+uma_dispute_discount,2,0.0,1.0,0.0,0

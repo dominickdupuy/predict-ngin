@@ -1,0 +1,5 @@
+strategy,signal_density_per_mo,mean_sharpe_across_thr,threshold_robustness,composite_score
+round_price_lp,1.25,0.2511297745435564,1.0,0.3139122181794455
+calendar_butterfly,0.0,0.0,0.0,0.0
+hazard_ladder,0.0,33.888723556883626,0.3333333333333333,0.0
+uma_dispute_discount,0.0,,0.3333333333333333,

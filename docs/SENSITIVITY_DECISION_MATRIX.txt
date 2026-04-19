@@ -1,0 +1,135 @@
+================================================================================
+PARAMETER SENSITIVITY DECISION MATRIX
+================================================================================
+
+SCENARIO TESTING: Strategy Viability Under Different Parameter Assumptions
+
+================================================================================
+SCENARIO A: Spreads are LOWER than assumed (5bps instead of 10bps)
+================================================================================
+Status: BETTER THAN EXPECTED
+
+Effect:
+- Whale-Follow: +5% revenue ($761k vs $725k)
+- BSTS News: +2% revenue (minor, already has 56bps cost model)
+- Pairs Trading: +3% revenue
+- Lee-Mykland: +25% revenue (helps marginal strategy)
+
+Action: If true, deploy all strategies as planned. This is upside surprise.
+
+================================================================================
+SCENARIO B: Spreads are HIGHER than assumed (20bps instead of 10bps)
+================================================================================
+Status: CONCERNING, SOME STRATEGIES FAIL
+
+Effect:
+- Whale-Follow: -3% revenue, but still viable ($703k)
+- BSTS News: Still viable (+56bps edge vs 40bps cost)
+- Pairs Trading: Marginal -> breakeven (cost eats edge)
+- Lee-Mykland: FAILS (cost > edge)
+
+Action: Don't deploy Lee-Mykland. Scale whale-follow and BSTS only.
+
+================================================================================
+SCENARIO C: Whale positions average $5k (not $500-2k as expected)
+================================================================================
+Status: CRITICAL ISSUE
+
+Effect:
+- Position count: -50% (fewer large positions executable)
+- Market impact cost: +50% (sqrt scaling, $5k trades have 1.3bps vs 0.4bps)
+- Whale-Follow revenue: -40% ($435k)
+- BSTS News: UNAFFECTED (scales well)
+- Pairs Trading: -20% (limited to smaller sizes)
+
+Action: Reduce whale-follow allocation to $10k. Scale BSTS to $10k.
+
+================================================================================
+SCENARIO D: Illiquid markets dominate whale activity (lower threshold needed)
+================================================================================
+Status: WORST CASE
+
+If whales actually trade in $300-500k markets (not just $500k+):
+- Execution cost jumps to 60-100bps (medium tier costs)
+- Whale-Follow edge (30% win * $75) becomes marginal
+- Current backtest is OVER-OPTIMISTIC
+
+Action: Raise threshold to $750k or $1M. Only trade absolute liquid tier.
+
+================================================================================
+SCENARIO E: All assumptions correct
+================================================================================
+Status: GREEN LIGHT - PROCEED WITH DEPLOYMENT
+
+- Whale-Follow: $725k * 0.8 margin = $580k gross, viable
+- BSTS News: $96k * 0.9 margin = $86k gross, viable
+- Pairs Trading: $50k * 0.8 margin = $40k gross, viable
+- Lee-Mykland: $3k margin = positive Sharpe, viable
+
+Total expected: $706k gross -> ~$570k net after 20% slippage margin
+
+Action: Deploy all 4 strategies. Expected monthly revenue: $47k.
+
+================================================================================
+LIKELIHOOD ASSESSMENT
+================================================================================
+
+Scenario A (Spreads LOW):        10% probability -> Upside
+Scenario B (Spreads HIGH):       25% probability -> Risk
+Scenario C (Large whale sizes):  40% probability -> Likely
+Scenario D (Illiquid dominance): 15% probability -> Tail risk
+Scenario E (All correct):        10% probability -> Base case
+
+Combined risk: Scenarios B+C+D have 80% probability that actual results
+are 20-40% worse than backtest.
+
+================================================================================
+RECOMMENDATION: VALIDATION BEFORE DEPLOYMENT
+================================================================================
+
+MUST-DO BEFORE DEPLOYING:
+
+1. Measure actual spreads (5 markets, 100 samples each)
+   - If avg < 8bps: Deploy as planned
+   - If avg 8-12bps: Deploy but monitor carefully
+   - If avg > 15bps: Revise position sizes down 30%
+
+2. Measure actual whale transaction sizes
+   - Sample 100 whale-follow signals
+   - Calculate median position size
+   - If > $2k: Reduce whale-follow allocation by 50%
+
+3. Validate market threshold
+   - Run live test on $500k vs $750k thresholds
+   - Compare actual slippage
+   - Choose threshold based on empirical data
+
+4. Test on live market (paper trading first)
+   - Week 1: Deploy at 25% capital ($8k)
+   - Measure realized Sharpe vs backtest Sharpe
+   - If > 0.7x correlation: Scale to 50%
+   - If < 0.5x correlation: Halt and diagnose
+
+================================================================================
+DEPLOYMENT TIMELINE
+================================================================================
+
+Day 1: Parameter validation (spreads, whale sizes, threshold)
+Day 2-3: Paper trading at 25% allocation
+Day 4-7: Monitor first week of live trades
+Week 2: Scale to 50% if Sharpe >= 0.7x
+Week 3-4: Full deployment or pivot based on live results
+
+================================================================================
+SUCCESS CRITERIA
+================================================================================
+
+Minimum acceptable performance:
+- Whale-Follow: Sharpe > 1.0 on live
+- BSTS News: Win rate > 60%
+- Pairs Trading: Sharpe > 0.8
+- Overall: Monthly P&L > $10k
+
+If not met by Week 2: Pause and revise assumptions.
+
+================================================================================
