@@ -124,11 +124,13 @@ def _build_clob_client():
     except ImportError:
         return None
 
-    private_key = os.environ.get("POLYMARKET_PRIVATE_KEY", "")
-    api_key      = os.environ.get("POLYMARKET_API_KEY", "")
-    api_secret   = os.environ.get("POLYMARKET_API_SECRET", "")
-    passphrase   = os.environ.get("POLYMARKET_API_PASSPHRASE", "")
-    chain_id     = int(os.environ.get("POLYMARKET_CHAIN_ID", "137"))
+    private_key    = os.environ.get("POLYMARKET_PRIVATE_KEY", "")
+    api_key        = os.environ.get("POLYMARKET_API_KEY", "")
+    api_secret     = os.environ.get("POLYMARKET_API_SECRET", "")
+    passphrase     = os.environ.get("POLYMARKET_API_PASSPHRASE", "")
+    chain_id       = int(os.environ.get("POLYMARKET_CHAIN_ID", "137"))
+    sig_type       = int(os.environ.get("POLYMARKET_SIGNATURE_TYPE", "0"))
+    funder_address = os.environ.get("POLYMARKET_FUNDER_ADDRESS", "") or None
 
     if not private_key:
         return None
@@ -140,13 +142,17 @@ def _build_clob_client():
             api_passphrase=passphrase,
         ) if api_key else None
 
-        client = ClobClient(
+        kwargs = dict(
             host=CLOB_API,
             key=private_key,
             chain_id=chain_id,
             creds=creds,
-            signature_type=1,  # EOA wallet
+            signature_type=sig_type,
         )
+        if funder_address:
+            kwargs["funder"] = funder_address
+
+        client = ClobClient(**kwargs)
         return client
     except Exception as e:
         print(f"Warning: could not initialise ClobClient: {e}")
