@@ -24,6 +24,7 @@ Usage:
 
 import argparse
 import sys
+from collections import deque
 from pathlib import Path
 
 import numpy as np
@@ -131,15 +132,30 @@ def extract_signals(trades: pd.DataFrame, whale_set: set,
 # ── Simulation ────────────────────────────────────────────────────────────────
 
 def simulate(signals: pd.DataFrame, close_times: dict, market_titles: dict,
-             starting_capital: float, position_pct: float) -> dict:
+             starting_capital: float, position_pct: float,
+             rolling_window: int = 100, min_samples: int = 30,
+             z_threshold: float = 2.0) -> dict:
     """
-    Chronological cash-management simulation.
-    Cash is only restored on close; not on mark-to-market.
+    Chronological cash-management simulation with causal rolling quality filter.
+
+    Rolling 2σ filter (no look-ahead):
+      - Maintain a deque of the last `rolling_window` whale scores seen in the
+        signal stream.  For each new signal: compute threshold = mean + z*std
+        of the CURRENT deque (before adding the new score), then decide.
+      - First `min_samples` signals are used purely for warm-up; no trades placed
+        until the deque has at least `min_samples` observations.
+
+    Cash rule: only restored on position close (cost-basis locking).
     """
     cash = starting_capital
     open_positions: dict = {}   # market_id -> record
     closed: list = []
     equity_curve: list = []     # (datetime, equity)
+
+    # Rolling score history — causal (deque updated AFTER the trade decision)
+    score_history: deque = deque(maxlen=rolling_window)
+    warmup_skipped = 0
+    filter_skipped = 0
 
     # Build event list: entries + exits
     # Entry  → (entry_datetime, "ENTRY", row)
@@ -174,6 +190,31 @@ def simulate(signals: pd.DataFrame, close_times: dict, market_titles: dict,
         if kind == "ENTRY":
             row = payload
             mid = row["_mid"]
+            whale_score = float(row.get("score", 0))
+
+            # ── Causal rolling 2σ filter ──────────────────────────────────
+            # Step 1: compute threshold from history BEFORE adding this score
+            n_seen = len(score_history)
+            if n_seen < min_samples:
+                # Warm-up: accumulate scores, don't trade yet
+                score_history.append(whale_score)
+                warmup_skipped += 1
+                continue
+
+            hist_arr = np.array(score_history)
+            mu    = hist_arr.mean()
+            sigma = hist_arr.std(ddof=1) if n_seen > 1 else 0.0
+            threshold = mu + z_threshold * sigma
+
+            # Step 2: always add score to history (causal)
+            score_history.append(whale_score)
+
+            # Step 3: filter — must have positive score AND be above rolling threshold
+            if whale_score <= 0 or whale_score <= threshold:
+                filter_skipped += 1
+                continue
+            # ─────────────────────────────────────────────────────────────
+
             # Skip if already have a position in this market
             if mid in open_positions:
                 continue
@@ -235,13 +276,15 @@ def simulate(signals: pd.DataFrame, close_times: dict, market_titles: dict,
     final_equity = cash + unrealised_cost  # cost basis, not mark-to-market
 
     return {
-        "closed":        closed,
-        "equity_curve":  equity_curve,
-        "final_cash":    cash,
-        "final_equity":  final_equity,
-        "n_open":        n_open,
+        "closed":          closed,
+        "equity_curve":    equity_curve,
+        "final_cash":      cash,
+        "final_equity":    final_equity,
+        "n_open":          n_open,
         "unrealised_cost": unrealised_cost,
         "starting_capital": starting_capital,
+        "warmup_skipped":  warmup_skipped,
+        "filter_skipped":  filter_skipped,
     }
 
 
@@ -303,6 +346,8 @@ def compute_metrics(result: dict) -> dict:
     worst_idx = np.argmin(pnls)
 
     return {
+        "warmup_skipped": result.get("warmup_skipped", 0),
+        "filter_skipped": result.get("filter_skipped", 0),
         "n_trades":      len(closed),
         "n_wins":        int(won.sum()),
         "n_losses":      int((~won).sum()),
@@ -363,6 +408,8 @@ def print_report(m: dict, capital: float, signals: pd.DataFrame) -> None:
     print()
     print(f"  Still open (at cost)  :  {m['n_open']} positions  "
           f"${m['unrealised_cost']:.2f}")
+    print(f"  Warmup skipped        :  {m.get('warmup_skipped', 0)}")
+    print(f"  Filter rejected       :  {m.get('filter_skipped', 0)}  (score <= mean+2*std)")
     print()
     print("  Best trade:")
     b = m["best_trade"]
@@ -394,8 +441,11 @@ def main():
     p = argparse.ArgumentParser(description="Whale cash-management backtest")
     p.add_argument("--capital",  type=float, default=1000.0, help="Starting capital ($)")
     p.add_argument("--pct",      type=float, default=0.10,   help="Position size fraction")
-    p.add_argument("--min-score", type=float, default=0.0,   help="Min whale score filter")
-    p.add_argument("--min-trades", type=int,  default=5,     help="Min trades to qualify whale")
+    p.add_argument("--min-score",      type=float, default=0.0,   help="Min whale score filter")
+    p.add_argument("--min-trades",     type=int,   default=5,     help="Min trades to qualify whale")
+    p.add_argument("--rolling-window", type=int,   default=100,   help="Rolling score history window size")
+    p.add_argument("--min-samples",    type=int,   default=30,    help="Warmup observations before filtering")
+    p.add_argument("--z-threshold",    type=float, default=1.0,   help="Std deviations above mean to qualify")
     args = p.parse_args()
 
     hist = _root / "data" / "historical"
@@ -415,9 +465,13 @@ def main():
         print("No signals — nothing to backtest.")
         return
 
-    print(f"\nSimulating {len(signals):,} trades  "
-          f"(capital=${args.capital:,.0f}, position={args.pct:.0%})...")
-    result = simulate(signals, close_times, market_titles, args.capital, args.pct)
+    print(f"\nSimulating {len(signals):,} signals  "
+          f"(capital=${args.capital:,.0f}, position={args.pct:.0%}, "
+          f"2-sigma filter: window={args.rolling_window} warmup={args.min_samples})...")
+    result = simulate(signals, close_times, market_titles, args.capital, args.pct,
+                      rolling_window=args.rolling_window,
+                      min_samples=args.min_samples,
+                      z_threshold=args.z_threshold)
 
     m = compute_metrics(result)
     m["_all_closed"] = result["closed"]
