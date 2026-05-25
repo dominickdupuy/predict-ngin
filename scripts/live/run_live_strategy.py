@@ -139,6 +139,7 @@ def build_whale_set(
     categories: Optional[list],
     resolutions_dir: Optional[Path],
     cfg: WhaleConfig,
+    market_volumes: Optional[Dict[str, float]] = None,
 ):
     """Load research data and build whale set + scores + winrates."""
     all_trades = []
@@ -194,6 +195,9 @@ def build_whale_set(
         recency_halflife_days=cfg.recency_halflife_days,
         bayes_prior_alpha=cfg.bayes_prior_alpha,
         bayes_prior_beta=cfg.bayes_prior_beta,
+        market_volumes=market_volumes,
+        lambda_decay=cfg.lambda_decay,
+        min_score=cfg.min_score,
     )
     return whale_set, scores, winrates
 
@@ -685,7 +689,8 @@ def polling_loop(
             if time.time() - last_whale_refresh > whale_refresh_hours * 3600:
                 print(f"[{datetime.now().strftime('%H:%M:%S')}] Refreshing whale set...")
                 try:
-                    ws, sc, wr = build_whale_set(research_dir, categories, resolutions_dir, cfg)
+                    ws, sc, wr = build_whale_set(research_dir, categories, resolutions_dir, cfg,
+                                                 market_volumes=market_liquidity)
                     buffer.update_whale_set(ws, wr, sc)
                     print(f"  Updated: {len(ws):,} whales")
                     last_whale_refresh = time.time()
@@ -966,19 +971,20 @@ def main() -> int:
     RISK_LIMITS["min_position_usd"] = min_pos
     print(f"  min_position_usd set to ${min_pos:.2f}")
 
-    # ── [1/3] Build whale set ──────────────────────────────────────────────────
-    print("\n[1/3] Building whale set from research data...")
-    whale_set, scores, winrates = build_whale_set(
-        args.research_dir, categories, resolutions_dir, cfg
-    )
-    print(f"  {len(whale_set):,} qualified whales")
-
-    # ── [2/3] Build market liquidity map ──────────────────────────────────────
-    print("\n[2/3] Building market liquidity map...")
+    # ── [1/3] Build market liquidity map (needed for whale scoring) ───────────
+    print("\n[1/3] Building market liquidity map...")
     market_liquidity = build_market_liquidity(args.research_dir, categories)
     print(f"  {len(market_liquidity):,} markets")
 
-    # ── [3/3] Restore / init position state ───────────────────────────────────
+    # ── [2/3] Build whale set ──────────────────────────────────────────────────
+    print("\n[2/3] Building whale set from research data...")
+    whale_set, scores, winrates = build_whale_set(
+        args.research_dir, categories, resolutions_dir, cfg,
+        market_volumes=market_liquidity,
+    )
+    print(f"  {len(whale_set):,} qualified whales")
+
+    # ── [3/3] Restore / init position state ──────────────────────────────────
     print("\n[3/3] Restoring position state...")
     state = _load_positions(args.state_path, args.capital)
 

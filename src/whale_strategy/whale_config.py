@@ -89,6 +89,13 @@ class WhaleConfig:
     # Set to 0 to disable (uniform weighting).
     recency_halflife_days: float = 90.0
 
+    # Custom scoring formula parameters.
+    # lambda_decay: per-day exponential decay rate for score_whales_custom.
+    #   0.01 ≈ e-fold in 100 days; 0.007 ≈ e-fold in ~143 days (~5 months).
+    lambda_decay: float = 0.01
+    # min_score: minimum score to qualify a whale (>0 = must have positive edge).
+    min_score: float = 0.0
+
     # Information Coefficient: price-direction accuracy at t+horizon_days.
     # Measures whether whale entry predicts short-term CLOB price movement (not resolution).
     # IC is an independent signal from surprise WR; blended as ic_score_weight * IC.
@@ -212,6 +219,10 @@ def load_whale_config(config_path: Optional[Path] = None) -> WhaleConfig:
             cfg.partial_exit_gain_threshold = float(ws["partial_exit_gain_threshold"])
         if "partial_exit_fraction" in ws:
             cfg.partial_exit_fraction = float(ws["partial_exit_fraction"])
+        if "lambda_decay" in ws:
+            cfg.lambda_decay = float(ws["lambda_decay"])
+        if "min_score" in ws:
+            cfg.min_score = float(ws["min_score"])
 
     return cfg
 
