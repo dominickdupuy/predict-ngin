@@ -34,6 +34,7 @@ Usage:
 import argparse
 import dataclasses
 import json
+import math
 import sys
 import threading
 import time
@@ -55,12 +56,14 @@ from src.whale_strategy.whale_config import load_whale_config, WhaleConfig
 from src.whale_strategy.whale_following_strategy import (
     WhaleSignal, StrategyState, Position,
     calculate_position_size,
+    RISK_LIMITS,
 )
 from src.whale_strategy.research_data_loader import (
     load_research_trades,
     load_research_markets,
     load_resolution_winners,
     get_research_categories,
+    load_historical_trades,
 )
 from src.whale_strategy.whale_surprise import build_surprise_positive_whale_set
 
@@ -126,6 +129,11 @@ def _log_trade(path: Path, record: dict) -> None:
 
 # ── Warmup: whale set + market liquidity ──────────────────────────────────────
 
+def _is_flat_historical(research_dir: Path) -> bool:
+    """Return True if this directory uses the flat recent_trades/ layout."""
+    return (research_dir / "recent_trades").is_dir()
+
+
 def build_whale_set(
     research_dir: Path,
     categories: Optional[list],
@@ -133,17 +141,23 @@ def build_whale_set(
     cfg: WhaleConfig,
 ):
     """Load research data and build whale set + scores + winrates."""
-    if categories is None:
-        categories = get_research_categories(research_dir)
-
     all_trades = []
-    for cat in categories:
-        try:
-            df = load_research_trades(research_dir, [cat])
-            if not df.empty:
-                all_trades.append(df)
-        except Exception as e:
-            print(f"  Warning: could not load {cat}: {e}")
+
+    if _is_flat_historical(research_dir):
+        print("  Using flat historical layout (data/historical/recent_trades/)")
+        df = load_historical_trades(research_dir)
+        if not df.empty:
+            all_trades.append(df)
+    else:
+        if categories is None:
+            categories = get_research_categories(research_dir)
+        for cat in categories:
+            try:
+                df = load_research_trades(research_dir, [cat])
+                if not df.empty:
+                    all_trades.append(df)
+            except Exception as e:
+                print(f"  Warning: could not load {cat}: {e}")
 
     if not all_trades:
         return set(), {}, {}
@@ -188,10 +202,34 @@ def build_market_liquidity(
     research_dir: Path,
     categories: Optional[list],
 ) -> Dict[str, float]:
-    """Build {conditionId: volume_usd} from markets_filtered.csv files."""
+    """Build {conditionId: volume_usd} from markets data."""
+    liquidity: Dict[str, float] = {}
+
+    if _is_flat_historical(research_dir):
+        markets_f = research_dir / "markets.parquet"
+        if markets_f.exists():
+            try:
+                _want = ["conditionId", "volumeNum", "volume", "volume24hr", "liquidityNum"]
+                import pyarrow.parquet as _pq
+                _avail = {f.name for f in _pq.read_schema(markets_f)}
+                mdf = pd.read_parquet(markets_f, columns=[c for c in _want if c in _avail])
+                id_col = "conditionId" if "conditionId" in mdf.columns else None
+                vol_col = next(
+                    (c for c in ["volumeNum", "volume", "volume24hr", "liquidityNum"] if c in mdf.columns),
+                    None,
+                )
+                if id_col:
+                    for _, row in mdf.iterrows():
+                        mid = str(row[id_col]).strip()
+                        vol = float(row[vol_col]) if vol_col and pd.notna(row.get(vol_col)) else 100_000.0
+                        if mid:
+                            liquidity[mid] = vol
+            except Exception as e:
+                print(f"  Warning: could not load markets.parquet: {e}")
+        return liquidity
+
     if categories is None:
         categories = get_research_categories(research_dir)
-    liquidity: Dict[str, float] = {}
     for cat in categories:
         try:
             mdf = load_research_markets(research_dir, [cat])
@@ -484,6 +522,9 @@ def process_signal(
     liq = market_liquidity.get(mid, float(signal.get("market_liquidity", 100_000)))
     size = calculate_position_size(ws, state, liq)
     if size is None or size <= 0:
+        return False
+    size = math.floor(size)
+    if size < 1:
         return False
 
     # Near-resolved guard
@@ -801,14 +842,19 @@ def replay_loop(
         categories = get_research_categories(research_dir)
 
     all_trades = []
-    for cat in categories:
-        try:
-            df = load_research_trades(research_dir, [cat])
-            if not df.empty:
-                df["_cat"] = cat
-                all_trades.append(df)
-        except Exception:
-            pass
+    if _is_flat_historical(research_dir):
+        df = load_historical_trades(research_dir)
+        if not df.empty:
+            all_trades.append(df)
+    else:
+        for cat in categories:
+            try:
+                df = load_research_trades(research_dir, [cat])
+                if not df.empty:
+                    df["_cat"] = cat
+                    all_trades.append(df)
+            except Exception:
+                pass
 
     if not all_trades:
         print("No trades found for replay.")
@@ -870,12 +916,14 @@ def main() -> int:
         description="Live whale-following strategy orchestrator",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
-    parser.add_argument("--research-dir",   type=Path, default=_project_root / "data" / "research")
+    parser.add_argument("--research-dir",   type=Path, default=_project_root / "data" / "historical")
     parser.add_argument("--resolutions-dir", type=Path, default=None,
                         help="Extra resolutions CSV dir (default: data/poly_cat)")
     parser.add_argument("--categories",     default=None,
                         help="Comma-separated categories (default: all)")
     parser.add_argument("--capital",        type=float, default=10_000.0)
+    parser.add_argument("--min-position-usd", type=float, default=None,
+                        help="Min position size in USD (auto-scales to 4%% of capital if unset)")
     parser.add_argument("--min-usd",        type=float, default=500.0,
                         help="Min USD trade size to consider as a whale signal")
     parser.add_argument("--min-wallet-wr",  type=float, default=0.55,
@@ -909,6 +957,14 @@ def main() -> int:
     session      = requests.Session()
     session.headers["User-Agent"] = "live-strategy/1.0"
     cfg          = load_whale_config()
+
+    # Scale minimum position size to capital (enables small-capital live trading).
+    # Default RISK_LIMITS["min_position_usd"] = 5000 which rejects all trades on <$1k capital.
+    min_pos = args.min_position_usd
+    if min_pos is None:
+        min_pos = max(1.0, args.capital * 0.04)
+    RISK_LIMITS["min_position_usd"] = min_pos
+    print(f"  min_position_usd set to ${min_pos:.2f}")
 
     # ── [1/3] Build whale set ──────────────────────────────────────────────────
     print("\n[1/3] Building whale set from research data...")

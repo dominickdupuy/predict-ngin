@@ -104,7 +104,8 @@ def load_research_trades(
             yes_price = raw_price.copy()
 
         # Side/direction (always in YES-token terms)
-        side = df.get("side", "").fillna("").astype(str).str.upper()
+        _side_col = df["side"] if "side" in df.columns else pd.Series("", index=df.index)
+        side = _side_col.fillna("").astype(str).str.upper()
         if side.isin(["BUY", "SELL"]).sum() == 0 and "outcomeIndex" in df.columns:
             # Fallback: outcomeIndex 0 → BUY YES, outcomeIndex 1 → SELL YES
             side = np.where(is_no, "SELL", "BUY")
@@ -123,10 +124,12 @@ def load_research_trades(
         if "conditionId" in df.columns and df["conditionId"].notna().any():
             df["market_id"] = df["conditionId"].astype(str).str.strip()
         else:
-            df["market_id"] = df.get("market_id", "").astype(str).str.strip()
+            _mid = df["market_id"] if "market_id" in df.columns else pd.Series("", index=df.index)
+            df["market_id"] = _mid.astype(str).str.strip()
         df["price"] = yes_price  # always YES-token price
+        _ts = df["timestamp"] if "timestamp" in df.columns else pd.Series(0, index=df.index)
         df["datetime"] = pd.to_datetime(
-            pd.to_numeric(df.get("timestamp", 0), errors="coerce"), unit="s", errors="coerce"
+            pd.to_numeric(_ts, errors="coerce"), unit="s", errors="coerce"
         )
         df["category"] = cat
 
@@ -280,8 +283,12 @@ class ResearchPriceStore:
             if not trades_path.exists():
                 continue
             df = pd.read_parquet(trades_path)
-            df = df.dropna(subset=["conditionId", "timestamp", "price"])
-            df["conditionId"] = df["conditionId"].astype(str).str.strip()
+            # Support both conditionId (raw API data) and market_id (normalized data)
+            id_col = "conditionId" if "conditionId" in df.columns else "market_id"
+            if id_col not in df.columns or "timestamp" not in df.columns or "price" not in df.columns:
+                continue
+            df = df.dropna(subset=[id_col, "timestamp", "price"])
+            df[id_col] = df[id_col].astype(str).str.strip()
             df["timestamp"] = pd.to_numeric(df["timestamp"], errors="coerce")
             df["price"] = pd.to_numeric(df["price"], errors="coerce")
             # Normalize to YES price: if outcomeIndex==1 (NO token), yes_price = 1 - price
@@ -289,7 +296,7 @@ class ResearchPriceStore:
                 oi = pd.to_numeric(df["outcomeIndex"], errors="coerce").fillna(0)
                 df.loc[oi == 1, "price"] = 1.0 - df.loc[oi == 1, "price"]
             df = df.dropna().sort_values("timestamp")
-            for mid, g in df.groupby("conditionId"):
+            for mid, g in df.groupby(id_col):
                 mid_str = str(mid).strip().replace(".0", "")
                 ts = g["timestamp"].astype("int64").to_numpy()
                 pr = g["price"].astype("float64").to_numpy()
@@ -318,6 +325,93 @@ class ResearchPriceStore:
     def close(self) -> None:
         """No-op for compatibility with ClobPriceStore."""
         pass
+
+
+def load_historical_trades(
+    historical_dir: Path,
+    min_usd: float = 10.0,
+    max_files: int = 0,
+    category_label: str = "historical",
+) -> pd.DataFrame:
+    """
+    Load trades from data/historical/recent_trades/*.parquet (flat directory).
+
+    Returns the same normalized format as load_research_trades:
+    maker, maker_direction, taker_direction, market_id, price (YES-basis),
+    usd_amount, token_amount, datetime, category.
+    """
+    rt_dir = Path(historical_dir) / "recent_trades"
+    if not rt_dir.exists():
+        return pd.DataFrame()
+
+    files = sorted(rt_dir.glob("*.parquet"))
+    if max_files:
+        files = files[:max_files]
+    if not files:
+        return pd.DataFrame()
+
+    dfs = []
+    for f in files:
+        try:
+            df = pd.read_parquet(f)
+        except Exception:
+            continue
+        if df.empty:
+            continue
+
+        # Wallet — filter and reset index so downstream column assignment aligns
+        user_raw = df.get("proxyWallet", pd.Series([""] * len(df), dtype="str")).fillna("").astype(str)
+        df = df[user_raw.str.startswith("0x", na=False)].reset_index(drop=True)
+        if df.empty:
+            continue
+
+        # USD amount
+        p_col = pd.to_numeric(df.get("price", 0), errors="coerce")
+        s_col = pd.to_numeric(df.get("size", 0), errors="coerce")
+        df["usd_amount"] = (p_col * s_col).fillna(0).clip(lower=0)
+        df = df[df["usd_amount"] >= min_usd].reset_index(drop=True)
+        if df.empty:
+            continue
+
+        user = df["proxyWallet"].fillna("").astype(str)
+
+        # YES-basis price + direction
+        raw_price = pd.to_numeric(df.get("price", 0), errors="coerce")
+        if "outcomeIndex" in df.columns:
+            oi = pd.to_numeric(df["outcomeIndex"], errors="coerce").fillna(0)
+            is_no = oi == 1
+            yes_price = raw_price.copy()
+            yes_price[is_no] = 1.0 - raw_price[is_no]
+        else:
+            is_no = pd.Series(False, index=df.index)
+            yes_price = raw_price.copy()
+
+        side = df["side"].fillna("").astype(str).str.upper() if "side" in df.columns else pd.Series("BUY", index=df.index)
+        flip = is_no & side.isin(["BUY", "SELL"])
+        side = side.copy()
+        side[flip] = side[flip].map({"BUY": "SELL", "SELL": "BUY"})
+
+        df["maker"]           = user
+        df["taker"]           = user
+        df["maker_direction"] = side
+        df["taker_direction"] = side.map({"BUY": "SELL", "SELL": "BUY"})
+        df["price"]           = yes_price
+        df["market_id"]       = df["conditionId"].astype(str).str.strip() if "conditionId" in df.columns else ""
+        df["token_amount"]    = pd.to_numeric(df.get("size", 0), errors="coerce")
+        _ts = pd.to_numeric(df.get("timestamp", 0), errors="coerce")
+        df["datetime"]        = pd.to_datetime(_ts, unit="s", errors="coerce")
+        df["category"]        = category_label
+
+        df = df.dropna(subset=["datetime", "market_id", "price"])
+        if not df.empty:
+            dfs.append(df)
+
+    if not dfs:
+        return pd.DataFrame()
+
+    out = pd.concat(dfs, ignore_index=True)
+    out = out.sort_values("datetime").reset_index(drop=True)
+    return out
 
 
 def load_resolution_winners(
