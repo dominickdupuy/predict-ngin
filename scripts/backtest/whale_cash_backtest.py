@@ -75,20 +75,24 @@ def load_inputs(hist_dir: Path):
 
 
 def build_whales(trades: pd.DataFrame, resolution_winners: dict,
-                 market_volumes: dict):
+                 market_volumes: dict, min_winrate: float = 0.0):
     print("Building whale set...")
     whale_set, scores, winrates = build_surprise_positive_whale_set(
         trades,
         resolution_winners,
-        min_trades=5,
+        min_trades=10,
         require_positive_surprise=True,
         volume_percentile=95.0,
         cutoff=trades["datetime"].max(),
         market_volumes=market_volumes,
-        lambda_decay=0.01,
+        lambda_decay=np.log(2.0) / 180.0,   # 6-month halflife
         min_score=0.0,
     )
-    print(f"  {len(whale_set):,} qualified whales")
+    if min_winrate > 0:
+        whale_set = {w for w in whale_set if winrates.get(w, 0) >= min_winrate}
+        scores    = {w: s for w, s in scores.items()   if w in whale_set}
+        winrates  = {w: r for w, r in winrates.items() if w in whale_set}
+    print(f"  {len(whale_set):,} qualified whales  (min win rate >= {min_winrate:.0%})")
     return whale_set, scores, winrates
 
 
@@ -132,18 +136,22 @@ def extract_signals(trades: pd.DataFrame, whale_set: set,
 # ── Simulation ────────────────────────────────────────────────────────────────
 
 def simulate(signals: pd.DataFrame, close_times: dict, market_titles: dict,
-             starting_capital: float, position_pct: float,
+             starting_capital: float, win_rate: float,
+             kelly_fraction: float = 0.25, max_position: float = 0.25,
              rolling_window: int = 100, min_samples: int = 30,
-             z_threshold: float = 2.0) -> dict:
+             z_threshold: float = 1.0) -> dict:
     """
-    Chronological cash-management simulation with causal rolling quality filter.
+    Chronological cash-management simulation with causal rolling quality filter
+    and fractional Kelly position sizing.
 
-    Rolling 2σ filter (no look-ahead):
-      - Maintain a deque of the last `rolling_window` whale scores seen in the
-        signal stream.  For each new signal: compute threshold = mean + z*std
-        of the CURRENT deque (before adding the new score), then decide.
-      - First `min_samples` signals are used purely for warm-up; no trades placed
-        until the deque has at least `min_samples` observations.
+    Kelly sizing (binary prediction market):
+      BUY  at price p: kelly = (win_rate - p) / (1 - p)
+      SELL at price p: kelly = (win_rate - (1-p)) / p
+      size = cash * min(kelly_fraction * kelly, max_position)
+
+    Rolling filter (no look-ahead):
+      - Deque of last `rolling_window` scores; threshold computed BEFORE
+        adding current score.  First `min_samples` used for warm-up only.
 
     Cash rule: only restored on position close (cost-basis locking).
     """
@@ -222,7 +230,24 @@ def simulate(signals: pd.DataFrame, close_times: dict, market_titles: dict,
             if any(p["market_id"] == mid for p in closed):
                 continue
 
-            size = cash * position_pct
+            ep  = float(row["price"])
+            direction = str(row["maker_direction"]).upper()
+
+            # Skip when whale agrees with market sentiment (no informational edge)
+            if direction == "BUY" and ep > 0.80:
+                filter_skipped += 1
+                continue
+            if direction == "SELL" and ep < 0.20:
+                filter_skipped += 1
+                continue
+
+            if direction == "BUY":
+                kelly = (win_rate - ep) / (1.0 - ep) if ep < 1.0 else 0.0
+            else:  # SELL YES = BUY NO
+                kelly = (win_rate - (1.0 - ep)) / ep if ep > 0.0 else 0.0
+            kelly = max(kelly, 0.0)
+            frac = min(kelly_fraction * kelly, max_position)
+            size = cash * frac
             if size < 0.01:
                 continue
 
@@ -439,9 +464,11 @@ def print_report(m: dict, capital: float, signals: pd.DataFrame) -> None:
 
 def main():
     p = argparse.ArgumentParser(description="Whale cash-management backtest")
-    p.add_argument("--capital",  type=float, default=1000.0, help="Starting capital ($)")
-    p.add_argument("--pct",      type=float, default=0.10,   help="Position size fraction")
+    p.add_argument("--capital",       type=float, default=1000.0, help="Starting capital ($)")
+    p.add_argument("--kelly",         type=float, default=0.25,  help="Kelly fraction (0.25 = quarter-Kelly)")
+    p.add_argument("--max-position",  type=float, default=0.10,  help="Max fraction of cash per position")
     p.add_argument("--min-score",      type=float, default=0.0,   help="Min whale score filter")
+    p.add_argument("--min-winrate",    type=float, default=0.60,  help="Min per-whale historical win rate")
     p.add_argument("--min-trades",     type=int,   default=5,     help="Min trades to qualify whale")
     p.add_argument("--rolling-window", type=int,   default=100,   help="Rolling score history window size")
     p.add_argument("--min-samples",    type=int,   default=30,    help="Warmup observations before filtering")
@@ -451,7 +478,8 @@ def main():
     hist = _root / "data" / "historical"
 
     trades, resolution_winners, market_volumes, close_times, market_titles = load_inputs(hist)
-    whale_set, scores, winrates = build_whales(trades, resolution_winners, market_volumes)
+    whale_set, scores, winrates = build_whales(trades, resolution_winners, market_volumes,
+                                               min_winrate=args.min_winrate)
 
     # Optional score filter
     if args.min_score > 0:
@@ -465,10 +493,13 @@ def main():
         print("No signals — nothing to backtest.")
         return
 
+    win_rate = float(signals["won"].mean())
     print(f"\nSimulating {len(signals):,} signals  "
-          f"(capital=${args.capital:,.0f}, position={args.pct:.0%}, "
-          f"2-sigma filter: window={args.rolling_window} warmup={args.min_samples})...")
-    result = simulate(signals, close_times, market_titles, args.capital, args.pct,
+          f"(capital=${args.capital:,.0f}, quarter-Kelly sizing, win_rate={win_rate:.1%}, "
+          f"1-sigma filter: window={args.rolling_window} warmup={args.min_samples})...")
+    result = simulate(signals, close_times, market_titles, args.capital, win_rate,
+                      kelly_fraction=args.kelly,
+                      max_position=args.max_position,
                       rolling_window=args.rolling_window,
                       min_samples=args.min_samples,
                       z_threshold=args.z_threshold)
@@ -476,6 +507,19 @@ def main():
     m = compute_metrics(result)
     m["_all_closed"] = result["closed"]
     print_report(m, args.capital, signals)
+
+    # ── QuantStats tearsheet ──────────────────────────────────────────────────
+    import quantstats as qs
+    eq = result["equity_curve"]
+    if len(eq) > 1:
+        eq_series = pd.Series(
+            [v for _, v in eq],
+            index=pd.DatetimeIndex([ts for ts, _ in eq], tz="UTC"),
+        ).resample("D").last().ffill()
+        returns = eq_series.pct_change().dropna()
+        out_path = _root / "backtests" / "whale_following" / "tearsheet.html"
+        qs.reports.html(returns, output=str(out_path), title="Whale Strategy (log10 capital weight)")
+        print(f"\n  Tearsheet saved -> {out_path}")
 
 
 if __name__ == "__main__":

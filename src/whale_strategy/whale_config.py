@@ -91,8 +91,8 @@ class WhaleConfig:
 
     # Custom scoring formula parameters.
     # lambda_decay: per-day exponential decay rate for score_whales_custom.
-    #   0.01 ≈ e-fold in 100 days; 0.007 ≈ e-fold in ~143 days (~5 months).
-    lambda_decay: float = 0.01
+    #   ln(2)/180 ≈ 0.00385 = 6-month halflife (calibrated via backtest).
+    lambda_decay: float = 0.00385
     # min_score: minimum score to qualify a whale (>0 = must have positive edge).
     min_score: float = 0.0
 

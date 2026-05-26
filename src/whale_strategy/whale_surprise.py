@@ -264,9 +264,9 @@ def score_whales_custom(
     Score each whale with the capital-volume-recency weighted edge formula:
 
         weighted_edge = SUM(edge_i * w_i) / SUM(w_i)
-        w_i = sqrt(capital_i) * sqrt(volume_i) * exp(-lambda * t_i_days)
+        w_i = log10(capital_i) * sqrt(volume_i) * exp(-lambda * t_i_days)
         edge_i = outcome_i - p_i       (outcome: 1=win, 0=loss; p_i = implied prob)
-        Score = weighted_edge * sqrt(N) / (1 + stdev(edge_i))
+        Score = weighted_edge * sqrt(N) / (1 + downside_vol(edge_i))
 
     Args:
         market_volumes: {market_id: volume_usd} — used as volume_i per trade.
@@ -319,9 +319,9 @@ def score_whales_custom(
         ref = ref.tz_convert("UTC") if ref.tzinfo else ref.tz_localize("UTC")
     df["_days_ago"] = (ref - df["datetime"]).dt.total_seconds().clip(lower=0.0) / 86400.0
 
-    # w_i = sqrt(capital) * sqrt(volume) * exp(-lambda * t)
+    # w_i = log10(capital) * sqrt(volume) * exp(-lambda * t)
     df["_w"] = (
-        np.sqrt(df["_capital"]) *
+        np.log10(df["_capital"].clip(lower=1.0)) *
         np.sqrt(df["_volume"]) *
         np.exp(-lambda_decay * df["_days_ago"])
     )
@@ -345,11 +345,25 @@ def score_whales_custom(
         # Weighted mean edge
         weighted_edge = float((edge * w).sum() / w_sum)
 
-        # Consistency penalty: std dev of raw edges
-        edge_std = float(np.std(edge, ddof=0))
+        # Consistency penalty: weighted downside semi-deviation.
+        # Same w_i (capital · volume · 6mo decay) applied to the vol calculation
+        # so stale losses penalise less than recent losses, mirroring the mean.
+        neg_mask = edge < 0
+        if neg_mask.any():
+            wn = w[neg_mask]
+            en = edge[neg_mask]
+            wn_sum = wn.sum()
+            if wn_sum > 0:
+                w_mean = (wn * en).sum() / wn_sum
+                w_var  = (wn * (en - w_mean) ** 2).sum() / wn_sum
+                edge_downvol = float(np.sqrt(max(w_var, 0.0)))
+            else:
+                edge_downvol = 0.0
+        else:
+            edge_downvol = 0.0
 
         # Final score
-        score = weighted_edge * np.sqrt(n) / (1.0 + edge_std)
+        score = weighted_edge * np.sqrt(n) / (1.0 + edge_downvol)
 
         if score < min_score:
             continue
