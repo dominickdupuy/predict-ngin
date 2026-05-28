@@ -123,6 +123,8 @@ def _flush_trades(buffer: dict[str, list], seen_hashes: dict[str, set]) -> int:
             if tx and tx in seen_hashes.get(cid, set()):
                 continue
             ts_raw = int(float(t.get("timestamp", 0) or 0))
+            # Normalise to seconds — load_historical_trades uses pd.to_datetime(unit="s")
+            ts_s = ts_raw // 1000 if ts_raw > 1e12 else ts_raw
             rows.append({
                 "proxyWallet":     str(t.get("proxyWallet") or t.get("maker") or ""),
                 "side":            str(t.get("side", "BUY") or "BUY").upper(),
@@ -130,7 +132,7 @@ def _flush_trades(buffer: dict[str, list], seen_hashes: dict[str, set]) -> int:
                 "conditionId":     cid,
                 "size":            float(t.get("size") or 0),
                 "price":           float(t.get("price") or 0),
-                "timestamp":       ts_raw * 1000 if ts_raw < 1e12 else ts_raw,
+                "timestamp":       ts_s,
                 "title":           str(t.get("title") or ""),
                 "transactionHash": str(t.get("transactionHash") or ""),
                 "usdcSize":        float(t.get("usdcSize") or t.get("amount") or 0),
@@ -214,6 +216,10 @@ def refresh_trades(session: requests.Session, lookback_buffer_hours: int = 2,
             print(f"    ... {total_raw:,} fetched, {total_written:,} written, cursor={dt}")
 
         if len(batch) < 500:
+            break
+
+        # Stop once we've caught up to within 5 minutes of now
+        if after >= int(time.time()) - 300:
             break
 
         time.sleep(0.05)
