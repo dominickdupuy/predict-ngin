@@ -71,6 +71,40 @@ DATA_API  = "https://data-api.polymarket.com"
 GAMMA_API = "https://gamma-api.polymarket.com"
 CLOB_API  = "https://clob.polymarket.com"
 
+
+def _refresh_data_if_stale(research_dir: Path, max_age_hours: float = 24) -> None:
+    """Run incremental data refresh if any source in research_dir is older than max_age_hours."""
+    import glob as _glob
+
+    def _age(path: Path) -> float:
+        return (time.time() - path.stat().st_mtime) / 3600 if path.exists() else float("inf")
+
+    trades_files = list((research_dir / "recent_trades").glob("*.parquet")) if (research_dir / "recent_trades").is_dir() else []
+    trades_age   = _age(max(trades_files, key=lambda p: p.stat().st_mtime)) if trades_files else float("inf")
+    res_age      = _age(research_dir / "resolutions.csv")
+    mkt_age      = _age(research_dir / "markets.parquet")
+
+    oldest = max(trades_age, res_age, mkt_age)
+    print(f"  trades={trades_age:.1f}h  resolutions={res_age:.1f}h  markets={mkt_age:.1f}h old")
+
+    if oldest <= max_age_hours:
+        print(f"  Data is fresh (oldest={oldest:.1f}h < {max_age_hours}h). Skipping refresh.")
+        return
+
+    print(f"  Data is stale (oldest={oldest:.1f}h). Running incremental refresh...")
+    try:
+        import subprocess
+        result = subprocess.run(
+            [sys.executable, str(_project_root / "scripts" / "data" / "refresh_data.py")],
+            cwd=str(_project_root),
+            capture_output=False,
+            timeout=900,
+        )
+        if result.returncode != 0:
+            print("  Warning: data refresh exited with errors — proceeding with existing data.")
+    except Exception as e:
+        print(f"  Warning: data refresh failed ({e}) — proceeding with existing data.")
+
 # ── Persistence paths ──────────────────────────────────────────────────────────
 DEFAULT_STATE_PATH      = _project_root / "data" / "live" / "positions.json"
 DEFAULT_BUFFER_STATE    = _project_root / "data" / "live" / "buffer_state.json"
@@ -113,9 +147,11 @@ def _load_positions(path: Path, capital: float) -> StrategyState:
         state.whale_exposure     = data.get("whale_exposure", {})
         state.market_exposure    = data.get("market_exposure", {})
         state.tier_exposure      = data.get("tier_exposure", {})
+        _pos_fields = {f.name for f in dataclasses.fields(Position)}
         for p in data.get("positions", []):
             p["entry_date"] = pd.Timestamp(p["entry_date"])
-            state.positions.append(Position(**p))
+            filtered = {k: v for k, v in p.items() if k in _pos_fields}
+            state.positions.append(Position(**filtered))
         print(f"  Restored {len(state.positions)} open positions from {path}")
     except Exception as e:
         print(f"Warning: could not restore positions: {e}")
@@ -1020,6 +1056,10 @@ def main() -> int:
         min_pos = max(1.0, args.capital * 0.04)
     RISK_LIMITS["min_position_usd"] = min_pos
     print(f"  min_position_usd set to ${min_pos:.2f}")
+
+    # ── [0/3] Refresh historical data if stale ────────────────────────────────
+    print("\n[0/3] Checking data freshness...")
+    _refresh_data_if_stale(args.research_dir, max_age_hours=24)
 
     # ── [1/3] Build market liquidity map (needed for whale scoring) ───────────
     print("\n[1/3] Building market liquidity map...")
