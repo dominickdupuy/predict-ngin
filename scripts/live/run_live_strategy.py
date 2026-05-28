@@ -1002,6 +1002,8 @@ def main() -> int:
                         help="How often to rebuild the whale set")
     parser.add_argument("--state-path",     type=Path, default=DEFAULT_STATE_PATH)
     parser.add_argument("--log",            type=Path, default=DEFAULT_TRADE_LOG)
+    parser.add_argument("--skip-refresh",   action="store_true",
+                        help="Skip data refresh and use existing data as-is")
     parser.add_argument("--dry-run",        action="store_true",
                         help="Log signals without placing orders")
     parser.add_argument("--live",           action="store_true",
@@ -1058,8 +1060,11 @@ def main() -> int:
     print(f"  min_position_usd set to ${min_pos:.2f}")
 
     # ── [0/3] Refresh historical data if stale ────────────────────────────────
-    print("\n[0/3] Checking data freshness...")
-    _refresh_data_if_stale(args.research_dir, max_age_hours=24)
+    if args.skip_refresh:
+        print("\n[0/3] Skipping data refresh (--skip-refresh)")
+    else:
+        print("\n[0/3] Checking data freshness...")
+        _refresh_data_if_stale(args.research_dir, max_age_hours=24)
 
     # ── [1/3] Build market liquidity map (needed for whale scoring) ───────────
     print("\n[1/3] Building market liquidity map...")
