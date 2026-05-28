@@ -112,22 +112,67 @@ def _latest_trade_ts() -> int:
     return ts
 
 
-def refresh_trades(session: requests.Session, lookback_buffer_hours: int = 2) -> int:
-    """
-    Fetch all trades since the latest stored timestamp and write them to
-    recent_trades/<conditionId>.parquet (append + dedup by transactionHash).
+def _flush_trades(buffer: dict[str, list], seen_hashes: dict[str, set]) -> int:
+    """Write a buffer of {conditionId: [trade, ...]} to parquet files. Returns rows written."""
+    written = 0
+    for cid, trades in buffer.items():
+        out_path = TRADES_DIR / f"{cid}.parquet"
+        rows = []
+        for t in trades:
+            tx = str(t.get("transactionHash") or "")
+            if tx and tx in seen_hashes.get(cid, set()):
+                continue
+            ts_raw = int(float(t.get("timestamp", 0) or 0))
+            rows.append({
+                "proxyWallet":     str(t.get("proxyWallet") or t.get("maker") or ""),
+                "side":            str(t.get("side", "BUY") or "BUY").upper(),
+                "asset":           str(t.get("asset") or ""),
+                "conditionId":     cid,
+                "size":            float(t.get("size") or 0),
+                "price":           float(t.get("price") or 0),
+                "timestamp":       ts_raw * 1000 if ts_raw < 1e12 else ts_raw,
+                "title":           str(t.get("title") or ""),
+                "transactionHash": str(t.get("transactionHash") or ""),
+                "usdcSize":        float(t.get("usdcSize") or t.get("amount") or 0),
+                "condition_id":    cid,
+            })
+            if tx:
+                seen_hashes.setdefault(cid, set()).add(tx)
 
-    Returns number of new trades written.
+        if not rows:
+            continue
+
+        new_df = pd.DataFrame(rows)
+        if out_path.exists():
+            try:
+                old_df = pd.read_parquet(out_path)
+                new_df = pd.concat([old_df, new_df], ignore_index=True)
+            except Exception:
+                pass
+        pq.write_table(pa.Table.from_pandas(new_df, preserve_index=False), out_path)
+        written += len(rows)
+    return written
+
+
+def refresh_trades(session: requests.Session, lookback_buffer_hours: int = 2,
+                   flush_every: int = 50_000) -> int:
+    """
+    Fetch trades since the cursor and write progressively to disk.
+    Flushes every `flush_every` trades and updates the cursor so progress
+    survives a timeout — next run picks up exactly where this one stopped.
     """
     latest_ts = _latest_trade_ts()
-    # Pull slightly before the latest to catch any stragglers
     since_ts  = latest_ts - lookback_buffer_hours * 3600
     since_dt  = datetime.fromtimestamp(since_ts, tz=timezone.utc)
     print(f"  Fetching trades since {since_dt.strftime('%Y-%m-%d %H:%M UTC')}...")
 
-    all_trades: list[dict] = []
-    after = since_ts
-    page = 0
+    buffer:      dict[str, list] = defaultdict(list)
+    seen_hashes: dict[str, set]  = {}
+    after        = since_ts
+    page         = 0
+    total_raw    = 0
+    total_written = 0
+    last_cursor  = since_ts
 
     while True:
         try:
@@ -145,86 +190,47 @@ def refresh_trades(session: requests.Session, lookback_buffer_hours: int = 2) ->
         if not batch:
             break
 
-        all_trades.extend(batch)
+        for t in batch:
+            cid = str(t.get("conditionId") or "").strip()
+            if cid:
+                buffer[cid].append(t)
+
+        total_raw += len(batch)
         page += 1
 
-        # Advance cursor to the latest timestamp in this batch
         batch_ts = [int(float(t.get("timestamp", 0) or 0)) for t in batch]
         if batch_ts:
             after = max(batch_ts)
+            if after > 1e12:
+                after //= 1000
+            last_cursor = after
+
+        if total_raw % flush_every < 500:
+            n = _flush_trades(buffer, seen_hashes)
+            total_written += n
+            buffer.clear()
+            _write_cursor({"trades_last_ts": last_cursor})
+            dt = datetime.fromtimestamp(last_cursor, tz=timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+            print(f"    ... {total_raw:,} fetched, {total_written:,} written, cursor={dt}")
 
         if len(batch) < 500:
             break
 
-        if page % 10 == 0:
-            print(f"    ... {len(all_trades):,} trades fetched so far")
-        time.sleep(0.1)
+        time.sleep(0.05)
 
-    if not all_trades:
+    # Final flush of remaining buffer
+    if buffer:
+        total_written += _flush_trades(buffer, seen_hashes)
+
+    if total_raw == 0:
         print("  No new trades found.")
         return 0
 
-    print(f"  {len(all_trades):,} raw trades fetched — grouping by market...")
-
-    # Group by conditionId
-    by_market: dict[str, list] = defaultdict(list)
-    for t in all_trades:
-        cid = str(t.get("conditionId") or "").strip()
-        if cid:
-            by_market[cid].append(t)
-
-    written = 0
-    for cid, trades in by_market.items():
-        out_path = TRADES_DIR / f"{cid}.parquet"
-
-        # Normalise to standard schema
-        rows = []
-        for t in trades:
-            ts_raw = int(float(t.get("timestamp", 0) or 0))
-            rows.append({
-                "proxyWallet":   str(t.get("proxyWallet") or t.get("maker") or ""),
-                "side":          str(t.get("side", "BUY") or "BUY").upper(),
-                "asset":         str(t.get("asset") or ""),
-                "conditionId":   cid,
-                "size":          float(t.get("size") or 0),
-                "price":         float(t.get("price") or 0),
-                "timestamp":     ts_raw * 1000 if ts_raw < 1e12 else ts_raw,
-                "title":         str(t.get("title") or ""),
-                "transactionHash": str(t.get("transactionHash") or ""),
-                "usdcSize":      float(t.get("usdcSize") or t.get("amount") or 0),
-                "condition_id":  cid,
-            })
-
-        new_df = pd.DataFrame(rows)
-
-        if out_path.exists():
-            try:
-                existing = pd.read_parquet(out_path, columns=["transactionHash", "timestamp"])
-                seen_hashes = set(existing["transactionHash"].dropna())
-                new_df = new_df[~new_df["transactionHash"].isin(seen_hashes)]
-                if new_df.empty:
-                    continue
-                # Append: read full file, concat, write back
-                old_full = pd.read_parquet(out_path)
-                new_df = pd.concat([old_full, new_df], ignore_index=True)
-            except Exception:
-                pass  # If can't read, overwrite
-
-        if not new_df.empty:
-            pq.write_table(pa.Table.from_pandas(new_df, preserve_index=False), out_path)
-            written += len(rows)
-
-    # Persist the cursor so next refresh starts from here, not re-scans files
-    if all_trades:
-        all_ts = [int(float(t.get("timestamp", 0) or 0)) for t in all_trades]
-        max_ts = max(all_ts)
-        if max_ts > 1e12:
-            max_ts //= 1000
-        _write_cursor({"trades_last_ts": max_ts})
-        print(f"  Cursor updated to {datetime.fromtimestamp(max_ts, tz=timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}")
-
-    print(f"  Wrote {written:,} new trade rows across {len(by_market)} markets.")
-    return written
+    # Save final cursor
+    _write_cursor({"trades_last_ts": last_cursor})
+    dt = datetime.fromtimestamp(last_cursor, tz=timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    print(f"  Done: {total_raw:,} fetched, {total_written:,} written, cursor={dt}")
+    return total_written
 
 
 # ── 2. Resolutions refresh ─────────────────────────────────────────────────────
