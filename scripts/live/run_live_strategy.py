@@ -855,8 +855,12 @@ def polling_loop(
             ts_s = datetime.now().strftime("%H:%M:%S")
             buf_stats = buffer.stats()
             deployed  = state.deployed()
-            equity    = paper_trader.account.equity if paper_trader else state.total_capital
-            equity_s  = f"${equity:,.2f}" if paper_trader else "n/a"
+            if paper_trader:
+                equity = paper_trader.account.equity
+            else:
+                # Live mode: equity = starting capital + closed P&L (tracked via state)
+                equity = state.total_capital
+            equity_s = f"${equity:,.2f}"
             print(
                 f"  [{ts_s}] trades={len(trades_raw)}  "
                 f"signals={buf_stats['signals_emitted']}  "
@@ -866,8 +870,7 @@ def polling_loop(
                 f"{'PAUSED' if risk_paused else 'active'}",
                 flush=True,
             )
-            if paper_trader:
-                _log_equity(equity_log_path, equity, state)
+            _log_equity(equity_log_path, equity, state)
             time.sleep(max(0, poll_interval - elapsed))
 
     except KeyboardInterrupt:

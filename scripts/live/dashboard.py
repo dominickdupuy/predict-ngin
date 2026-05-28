@@ -252,11 +252,11 @@ body { background: #0d1117; color: #c9d1d9; font-family: 'Segoe UI', sans-serif;
 .badge-sell { background: #da3633; }
 .pos-pnl    { font-weight: 600; }
 .metric-val { font-size: 1.4rem; font-weight: 700; }
-.metric-lbl { font-size: 0.75rem; color: #8b949e; text-transform: uppercase; }
+.metric-lbl { font-size: 0.75rem; color: #e6edf3; text-transform: uppercase; }
 .green { color: #3fb950; }
 .red   { color: #f85149; }
 table { font-size: 0.85rem; }
-.ts   { color: #8b949e; font-size: 0.75rem; }
+.ts   { color: #e6edf3; font-size: 0.75rem; }
 </style>
 </head>
 <body>
@@ -369,8 +369,8 @@ function buildChart(curve) {
       responsive: true, maintainAspectRatio: false,
       plugins: { legend: { display: false } },
       scales: {
-        x: { ticks: { color: '#8b949e', maxTicksLimit: 8 }, grid: { color: '#21262d' } },
-        y: { ticks: { color: '#8b949e', callback: v => '$'+v.toLocaleString() }, grid: { color: '#21262d' } },
+        x: { ticks: { color: '#e6edf3', maxTicksLimit: 8 }, grid: { color: '#21262d' } },
+        y: { ticks: { color: '#e6edf3', callback: v => '$'+v.toLocaleString() }, grid: { color: '#21262d' } },
       }
     }
   });
