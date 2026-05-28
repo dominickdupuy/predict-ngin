@@ -75,6 +75,7 @@ CLOB_API  = "https://clob.polymarket.com"
 DEFAULT_STATE_PATH      = _project_root / "data" / "live" / "positions.json"
 DEFAULT_BUFFER_STATE    = _project_root / "data" / "live" / "buffer_state.json"
 DEFAULT_TRADE_LOG       = _project_root / "data" / "live" / "trades.jsonl"
+DEFAULT_EQUITY_LOG      = _project_root / "data" / "live" / "equity_log.jsonl"
 
 
 # ── Position state persistence ─────────────────────────────────────────────────
@@ -631,6 +632,18 @@ def close_position(
 
 # ── Live polling loop ──────────────────────────────────────────────────────────
 
+def _log_equity(equity_log_path: Path, equity: float, state: StrategyState) -> None:
+    equity_log_path.parent.mkdir(parents=True, exist_ok=True)
+    record = {
+        "ts": datetime.now(timezone.utc).isoformat(),
+        "equity": round(equity, 2),
+        "positions": len(state.positions),
+        "deployed": round(state.deployed(), 2),
+    }
+    with open(equity_log_path, "a") as f:
+        f.write(json.dumps(record) + "\n")
+
+
 def polling_loop(
     buffer: LiveTradeBuffer,
     state: StrategyState,
@@ -649,6 +662,7 @@ def polling_loop(
     categories: Optional[list],
     resolutions_dir: Optional[Path],
     whale_refresh_hours: int = 168,
+    equity_log_path: Path = DEFAULT_EQUITY_LOG,
 ) -> None:
     last_ts     = int(time.time()) - 2 * poll_interval
     seen_hashes: Set[str] = set()
@@ -671,8 +685,9 @@ def polling_loop(
     resolution_monitor = ResolutionMonitor(state, session, _on_resolved, poll_interval=300)
     resolution_monitor.start()
 
+    mode_label = "DRY RUN" if dry_run else ("LIVE TRADING" if order_router else "PAPER TRADING")
     print(f"\n{'='*65}")
-    print(f"  Live Strategy  —  {'DRY RUN' if dry_run else 'PAPER TRADING'}")
+    print(f"  Live Strategy  —  {mode_label}")
     print(f"{'='*65}")
     print(f"  Capital:        ${state.total_capital:,.0f}")
     print(f"  Open positions: {len(state.positions)}")
@@ -804,9 +819,10 @@ def polling_loop(
             ts_s = datetime.now().strftime("%H:%M:%S")
             buf_stats = buffer.stats()
             deployed  = state.deployed()
-            equity_s  = f"${paper_trader.account.equity:,.0f}" if paper_trader else "n/a"
+            equity    = paper_trader.account.equity if paper_trader else state.total_capital
+            equity_s  = f"${equity:,.2f}" if paper_trader else "n/a"
             print(
-                f"  [{ts_s}] {len(trades_raw)} trades  "
+                f"  [{ts_s}] trades={len(trades_raw)}  "
                 f"signals={buf_stats['signals_emitted']}  "
                 f"positions={len(state.positions)}  "
                 f"deployed=${deployed:,.0f}  "
@@ -814,6 +830,8 @@ def polling_loop(
                 f"{'PAUSED' if risk_paused else 'active'}",
                 flush=True,
             )
+            if paper_trader:
+                _log_equity(equity_log_path, equity, state)
             time.sleep(max(0, poll_interval - elapsed))
 
     except KeyboardInterrupt:
@@ -926,12 +944,13 @@ def main() -> int:
                         help="Extra resolutions CSV dir (default: data/poly_cat)")
     parser.add_argument("--categories",     default=None,
                         help="Comma-separated categories (default: all)")
-    parser.add_argument("--capital",        type=float, default=10_000.0)
+    parser.add_argument("--capital",        type=float, default=None,
+                        help="Trading capital in USD (default: fetch from Polymarket balance)")
     parser.add_argument("--min-position-usd", type=float, default=None,
                         help="Min position size in USD (auto-scales to 4%% of capital if unset)")
     parser.add_argument("--min-usd",        type=float, default=500.0,
                         help="Min USD trade size to consider as a whale signal")
-    parser.add_argument("--min-wallet-wr",  type=float, default=0.55,
+    parser.add_argument("--min-wallet-wr",  type=float, default=0.60,
                         help="Min historical win-rate to follow a whale")
     parser.add_argument("--min-confirmations", type=int, default=1,
                         help="Distinct whales needed to confirm a signal")
@@ -963,6 +982,37 @@ def main() -> int:
     session.headers["User-Agent"] = "live-strategy/1.0"
     cfg          = load_whale_config()
 
+    # Auto-detect capital from Polymarket balance if not specified
+    if args.capital is None:
+        try:
+            import os
+            from dotenv import load_dotenv
+            load_dotenv(_project_root / ".env")
+            from eth_account import Account
+            from py_clob_client_v2 import ClobClient as _ClobV2
+            from py_clob_client_v2.clob_types import BalanceAllowanceParams as _BAP, AssetType as _AT, ApiCreds as _AC
+            _pk = os.getenv("POLYMARKET_PRIVATE_KEY", "")
+            if _pk:
+                _pk = _pk if _pk.startswith("0x") else "0x" + _pk
+                _addr = Account.from_key(_pk).address
+                _creds = _AC(
+                    api_key=os.getenv("POLYMARKET_API_KEY", ""),
+                    api_secret=os.getenv("POLYMARKET_API_SECRET", ""),
+                    api_passphrase=os.getenv("POLYMARKET_API_PASSPHRASE", ""),
+                ) if os.getenv("POLYMARKET_API_KEY") else None
+                _c = _ClobV2("https://clob.polymarket.com", chain_id=137, key=_pk,
+                              creds=_creds, signature_type=2, funder=_addr)
+                _r = _c.get_balance_allowance(_BAP(asset_type=_AT.COLLATERAL, signature_type=2))
+                _bal = int(_r.get("balance", 0)) / 1e6
+                if _bal > 0:
+                    args.capital = _bal
+                    print(f"  Detected Polymarket balance: ${_bal:,.2f}")
+        except Exception as _e:
+            print(f"  Warning: could not fetch balance ({_e})")
+        if args.capital is None:
+            args.capital = 1000.0
+            print(f"  Using default capital: ${args.capital:,.2f}")
+
     # Scale minimum position size to capital (enables small-capital live trading).
     # Default RISK_LIMITS["min_position_usd"] = 5000 which rejects all trades on <$1k capital.
     min_pos = args.min_position_usd
@@ -982,7 +1032,17 @@ def main() -> int:
         args.research_dir, categories, resolutions_dir, cfg,
         market_volumes=market_liquidity,
     )
-    print(f"  {len(whale_set):,} qualified whales")
+    n = len(whale_set)
+    print(f"  {n:,} qualified whales")
+    if scores:
+        top = sorted(scores.items(), key=lambda x: x[1], reverse=True)[:20]
+        print(f"\n  Top 20 whales by score:")
+        print(f"  {'Address':<12}  {'Score':>6}  {'WinRate':>7}  {'Trades':>6}")
+        print(f"  {'-'*12}  {'-'*6}  {'-'*7}  {'-'*6}")
+        for addr, sc in top:
+            wr = winrates.get(addr, 0.0)
+            print(f"  {addr[:10]}..  {sc:6.2f}  {wr:7.1%}  ")
+        print()
 
     # ── [3/3] Restore / init position state ──────────────────────────────────
     print("\n[3/3] Restoring position state...")

@@ -24,6 +24,10 @@ htmlcov
 __pycache__/
 *.pyc
 .pytest_cache/
+/cache/
+
+# Generated outputs
+backtests/whale_following/tearsheet.html
 
 # Data
 /data/

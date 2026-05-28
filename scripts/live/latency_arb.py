@@ -28,6 +28,7 @@ import argparse
 import datetime
 import json
 import logging
+import math
 import time
 import sys
 import os
@@ -294,7 +295,7 @@ def print_ranked_signals(signals: list[RankedSignal], capital: float = 10000):
     print(f"  RANKED LATENCY ARB SIGNALS  |  Capital: ${capital:,.0f}  |  {datetime.datetime.utcnow().strftime('%H:%M:%S UTC')}")
     print(f"{'='*90}")
     for rank, s in enumerate(signals_sorted, 1):
-        pos_size = min(s.kelly_fraction * capital, 0.25 * capital)
+        pos_size = math.floor(min(s.kelly_fraction * capital, 0.25 * capital))
         print(
             f"#{rank:2d}  {'BUY' if s.direction=='BUY' else 'SELL':4s}  "
             f"YES={s.current_yes_price:.1%}  lag={s.residual_pct:.1%}  "
@@ -406,6 +407,19 @@ def main():
     elif args.live or args.dry_run:
         if args.dry_run:
             log.info("DRY-RUN mode — signals will be printed but no orders placed")
+
+        # Set up live order router when --live is specified
+        order_router = None
+        if args.live:
+            sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
+            from src.trading.live.order_router import OrderRouter, OrderSide
+            order_router = OrderRouter(dry_run=False)
+            if not order_router.is_authenticated():
+                log.error("Live mode requires POLYMARKET_PRIVATE_KEY env var.")
+                log.error("Install: pip install py-clob-client")
+                return
+            log.info("Live order router initialised (latency arb)")
+
         # Import and run the news monitor
         from scripts.live.news_monitor import (
             NewsAPIIngester, GDELTIngester, RSSIngester,
@@ -428,6 +442,7 @@ def main():
         matcher = HeadlineMatcher(markets)
         pending_signals = []
         last_refresh = time.time()
+        placed_signals = set()  # deduplicate by (market_id, direction)
 
         while True:
             if time.time() - last_refresh > 1800:
@@ -478,6 +493,25 @@ def main():
                     with open(args.log, "a") as f:
                         for s in pending_signals:
                             f.write(json.dumps(asdict(s)) + "\n")
+
+                # Place live orders for top signal
+                if order_router is not None and pending_signals:
+                    best = sorted(pending_signals, key=lambda s: s.signal_score, reverse=True)[0]
+                    sig_key = (best.condition_id, best.direction)
+                    if sig_key not in placed_signals and best.clob_token_id:
+                        pos_size = math.floor(min(best.kelly_fraction * args.capital, 0.25 * args.capital))
+                        if pos_size >= 1:
+                            placed_signals.add(sig_key)
+                            side = OrderSide.BUY if best.direction == "BUY" else OrderSide.SELL
+                            try:
+                                result = order_router.place_market_order(
+                                    best.clob_token_id, side, size_usd=float(pos_size)
+                                )
+                                log.info(f"ORDER PLACED: {best.direction} ${pos_size} "
+                                         f"on {best.market_question[:50]} | {result}")
+                            except Exception as e:
+                                log.error(f"Order failed: {e}")
+
                 pending_signals.clear()
 
             time.sleep(args.interval)

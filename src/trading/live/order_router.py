@@ -111,51 +111,63 @@ class OrderBook:
 
 def _build_clob_client():
     """
-    Build a py-clob-client ClobClient using environment variables.
-
-    Returns the client instance, or None if py-clob-client is not installed
-    or credentials are missing.
-
-    The ClobClient handles all EIP-712 order signing internally.
+    Build a py-clob-client-v2 ClobClient using environment variables.
+    signature_type defaults to 2 (Safe proxy — the wallet type Polymarket creates
+    for MetaMask-connected accounts). Override via POLYMARKET_SIGNATURE_TYPE.
     """
-    try:
-        from py_clob_client.client import ClobClient
-        from py_clob_client.clob_types import ApiCreds
-    except ImportError:
+    private_key    = os.environ.get("POLYMARKET_PRIVATE_KEY", "")
+    if not private_key:
         return None
 
-    private_key    = os.environ.get("POLYMARKET_PRIVATE_KEY", "")
     api_key        = os.environ.get("POLYMARKET_API_KEY", "")
     api_secret     = os.environ.get("POLYMARKET_API_SECRET", "")
     passphrase     = os.environ.get("POLYMARKET_API_PASSPHRASE", "")
     chain_id       = int(os.environ.get("POLYMARKET_CHAIN_ID", "137"))
-    sig_type       = int(os.environ.get("POLYMARKET_SIGNATURE_TYPE", "0"))
+    sig_type       = int(os.environ.get("POLYMARKET_SIGNATURE_TYPE", "2"))
     funder_address = os.environ.get("POLYMARKET_FUNDER_ADDRESS", "") or None
 
-    if not private_key:
-        return None
-
     try:
+        from py_clob_client_v2 import ClobClient
+        from py_clob_client_v2.clob_types import ApiCreds
+
         creds = ApiCreds(
             api_key=api_key,
             api_secret=api_secret,
             api_passphrase=passphrase,
         ) if api_key else None
 
-        kwargs = dict(
+        client = ClobClient(
             host=CLOB_API,
-            key=private_key,
             chain_id=chain_id,
+            key=private_key,
             creds=creds,
             signature_type=sig_type,
+            funder=funder_address,
         )
+        return client
+    except ImportError:
+        pass
+    except Exception as e:
+        print(f"Warning: could not initialise ClobClient v2: {e}")
+
+    # Fall back to v1 if v2 not installed
+    try:
+        from py_clob_client.client import ClobClient as ClobClientV1
+        from py_clob_client.clob_types import ApiCreds as ApiCredsV1
+
+        creds = ApiCredsV1(
+            api_key=api_key,
+            api_secret=api_secret,
+            api_passphrase=passphrase,
+        ) if api_key else None
+
+        kwargs = dict(host=CLOB_API, key=private_key, chain_id=chain_id,
+                      creds=creds, signature_type=sig_type)
         if funder_address:
             kwargs["funder"] = funder_address
-
-        client = ClobClient(**kwargs)
-        return client
+        return ClobClientV1(**kwargs)
     except Exception as e:
-        print(f"Warning: could not initialise ClobClient: {e}")
+        print(f"Warning: could not initialise ClobClient v1: {e}")
         return None
 
 
@@ -374,23 +386,39 @@ class OrderRouter:
                 ),
             )
 
-        # Live order via py-clob-client (handles EIP-712 signing internally)
+        # Live order via py-clob-client-v2
         try:
-            from py_clob_client.clob_types import MarketOrderArgs, BUY, SELL
+            from py_clob_client_v2.clob_types import OrderArgsV2, PartialCreateOrderOptions, OrderType
+            from py_clob_client_v2.order_builder.constants import BUY as _BUY, SELL as _SELL
 
             best_price = self.get_best_price(token_id, side)
-            if not best_price:
+            if not best_price or best_price <= 0:
                 return OrderResult(success=False, error="Could not get market price")
 
-            token_size = round(size_usd / best_price, 4)
-            clob_side  = BUY if side == OrderSide.BUY else SELL
+            token_size = round(size_usd / best_price, 2)
+            clob_side  = _BUY if side == OrderSide.BUY else _SELL
 
-            order_args = MarketOrderArgs(
+            # Fetch tick size and neg_risk for this market
+            tick_size = "0.01"
+            neg_risk  = False
+            try:
+                mkt = self._clob_client.get_market(token_id)
+                tick_size = str(mkt.get("minimum_tick_size", "0.01"))
+                neg_risk  = bool(mkt.get("neg_risk", False))
+            except Exception:
+                pass
+
+            order_args = OrderArgsV2(
                 token_id=token_id,
-                amount=token_size,
+                price=round(best_price, 4),
+                size=token_size,
+                side=clob_side,
             )
-            signed_order = self._clob_client.create_market_order(order_args)
-            resp = self._clob_client.post_order(signed_order, clob_side)
+            resp = self._clob_client.create_and_post_order(
+                order_args,
+                options=PartialCreateOrderOptions(tick_size=tick_size, neg_risk=neg_risk),
+                order_type=OrderType.GTC,
+            )
 
             order_id = resp.get("orderID") or resp.get("id", "")
             return OrderResult(

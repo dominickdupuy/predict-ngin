@@ -649,8 +649,10 @@ def run_whale_category_backtest(
         print(f"  Unfavored-only: {len(signals_df):,} / {len(test_df):,} test trades")
 
     # Get signals (use union of all monthly whale sets when rolling, so we capture all potential signals)
-    signal_min_usd = min(min_usd, 1000)  # Lower for research data
-    min_pos_override = 1000 if (volume_only or unfavored_only or use_performance_filter) else None
+    signal_min_usd = min_usd  # Use configured minimum directly
+    # min_pos_override: signal trade must be >= this to qualify. Scale with min_usd so small-capital
+    # runs aren't blocked by the hardcoded $1k floor.
+    min_pos_override = max(1.0, min_usd) if (volume_only or unfavored_only or use_performance_filter) else None
     min_liq_override = 10000 if (volume_only or unfavored_only or use_performance_filter) else None
     signals = filter_and_score_signals(
         signals_df,
@@ -859,8 +861,12 @@ def run_whale_category_backtest(
                 if pos.side == sig.side:
                     # Agreeing signal: track whale as supporter and layer onto position if room.
                     market_supporting_whales.setdefault(mid, set()).add(sig.whale_address)
-                    add_size = calculate_position_size(sig, state, market_liquidity.get(mid, 100_000))
-                    if add_size is not None and add_size >= 1000 and state.available() >= add_size:
+                    if volume_only:
+                        add_size = min(position_size, state.available())
+                    else:
+                        add_size = calculate_position_size(sig, state, market_liquidity.get(mid, 100_000))
+                    _add_min = max(1.0, capital * 0.001)
+                    if add_size is not None and add_size >= _add_min and state.available() >= add_size:
                         if pos.side == "BUY":
                             old_shares = pos.size_usd / max(pos.entry_price, 1e-6)
                             new_shares = add_size / max(sig.price, 1e-6)
@@ -962,8 +968,12 @@ def run_whale_category_backtest(
                 if len(recent_whales) < cfg.min_confirmation_whales:
                     continue
 
-            size = calculate_position_size(sig, state, market_liquidity.get(mid, 100_000))
-            if size is None or size < 1000:
+            if volume_only:
+                size = min(position_size, state.available())
+            else:
+                size = calculate_position_size(sig, state, market_liquidity.get(mid, 100_000))
+            _min_size = max(1.0, capital * 0.001)  # 0.1% of capital floor
+            if size is None or size < _min_size:
                 continue
 
             if state.available() < size:
@@ -1484,7 +1494,51 @@ def main() -> int:
         "--workers", type=int, default=35,
         help="Parallel workers: per-category mode distributes categories; combined mode parallelises monthly whale building (default: all CPUs)",
     )
+    parser.add_argument(
+        "--backtest-config", type=Path, default=None,
+        help="YAML config file (e.g. config/backtest.yaml). Values override defaults but CLI args override config.",
+    )
     args = parser.parse_args()
+
+    # Apply backtest config YAML — CLI args take precedence over config file
+    if args.backtest_config and args.backtest_config.exists():
+        import yaml
+        with open(args.backtest_config) as _f:
+            _cfg = yaml.safe_load(_f).get("backtest", {})
+        _cli = sys.argv[1:]
+        def _apply(attr, key, cast=None):
+            if f"--{key.replace('_','-')}" not in _cli and attr not in _cli:
+                val = _cfg.get(key)
+                if val is not None:
+                    if cast:
+                        val = cast(val)
+                    setattr(args, attr, val)
+        _apply("capital",                  "capital",                float)
+        _apply("min_usd",                  "min_usd",                float)
+        _apply("position_size",            "position_size",          float)
+        _apply("train_ratio",              "train_ratio",            float)
+        _apply("max_hold_days",            "max_hold_days",          int)
+        _apply("min_buy_yes_price",        "min_buy_yes_price",      float)
+        _apply("max_sell_yes_price",       "max_sell_yes_price",     float)
+        _apply("min_confirmation_whales",  "min_confirmation_whales",int)
+        _apply("confirmation_window_days", "confirmation_window_days",int)
+        if "volume_only" in _cfg and "--volume-only" not in _cli:
+            args.volume_only = bool(_cfg["volume_only"])
+        if "rebalance" in _cfg and "--no-rebalance" not in _cli:
+            args.no_rebalance = not bool(_cfg["rebalance"])
+        if "quantstats" in _cfg and "--no-quantstats" not in _cli:
+            args.no_quantstats = not bool(_cfg["quantstats"])
+        if "tracker" in _cfg and "--no-tracker" not in _cli:
+            args.no_tracker = not bool(_cfg["tracker"])
+        if "output_csv" in _cfg and not args.output:
+            args.output = _cfg["output_csv"]
+        if "output_dir" in _cfg and args.output_dir == _project_root / "data" / "output" / "whale_following":
+            args.output_dir = Path(_cfg["output_dir"])
+        if "research_dir" in _cfg and args.research_dir == _project_root / "data" / "research":
+            args.research_dir = Path(_cfg["research_dir"])
+        if "volume_percentile" in _cfg:
+            # stored in whale_config, applied later via whale_config.volume_percentile
+            args._config_volume_percentile = float(_cfg["volume_percentile"])
 
     research_dir = args.research_dir
 
@@ -1514,6 +1568,8 @@ def main() -> int:
 
     # Resolve whale mode from CLI or config
     whale_config = load_whale_config()
+    if hasattr(args, "_config_volume_percentile"):
+        whale_config.volume_percentile = args._config_volume_percentile
     if args.volume_only:
         whale_config.mode = "volume_only"
     if args.surprise_only:
@@ -1560,6 +1616,11 @@ def main() -> int:
     print("  unfavored_only", unfavored_only)
     print("  categories   ", categories or "all")
     print("  workers      ", args.workers)
+
+    # Scale RISK_LIMITS to capital so small-capital runs aren't blocked by $5k minimums
+    from src.whale_strategy.whale_following_strategy import RISK_LIMITS
+    RISK_LIMITS["min_position_usd"] = max(1.0, args.capital * 0.001)
+    RISK_LIMITS["max_position_usd"] = max(args.capital * 0.05, 250_000)
 
     # Walk-forward mode — runs before (and instead of) the main backtest
     if args.walk_forward:

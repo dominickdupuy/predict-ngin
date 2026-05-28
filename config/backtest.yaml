@@ -1,0 +1,36 @@
+# Whale Strategy Backtest Configuration
+# Run: python scripts/backtest/run_whale_category_backtest.py --backtest-config config/backtest.yaml
+
+backtest:
+  # Capital and sizing
+  capital: 1000           # Starting capital in USD
+  min_usd: 1              # Min whale trade size to consider as signal
+  position_size: 25       # Max position size per trade in USD
+
+  # Data
+  research_dir: data/research
+  output_dir: data/output/whale_following
+  output_csv: data/output/whale_backtest.csv
+
+  # Whale identification
+  volume_only: true       # Use volume percentile (no win-rate requirement)
+  volume_percentile: 75   # Top 25% by volume = "whale"
+
+  # Price gates — set to full range (no near-certainty filter)
+  min_buy_yes_price: 0.0  # Accept BUY signals at any price
+  max_sell_yes_price: 1.0 # Accept SELL signals at any price
+
+  # Exit rules
+  max_hold_days: 60       # Force-close after 60 days at current price
+
+  # Walk-forward / train split
+  train_ratio: 0.3        # 30% of data for whale identification, 70% for testing
+  rebalance: false        # Single whale set (no weekly rebalancing)
+
+  # Confirmation
+  min_confirmation_whales: 1
+  confirmation_window_days: 7
+
+  # Output
+  quantstats: false
+  tracker: false
