@@ -18,6 +18,7 @@ Usage:
 
 import argparse
 import ast
+import json
 import os
 import sys
 import time
@@ -40,9 +41,26 @@ HIST_DIR     = _root / "data" / "historical"
 TRADES_DIR   = HIST_DIR / "recent_trades"
 RES_FILE     = HIST_DIR / "resolutions.csv"
 MARKETS_FILE = HIST_DIR / "markets.parquet"
+CURSOR_FILE  = HIST_DIR / ".refresh_cursor.json"  # persists fetch progress
 
 for d in [HIST_DIR, TRADES_DIR]:
     d.mkdir(parents=True, exist_ok=True)
+
+
+def _read_cursor() -> dict:
+    if CURSOR_FILE.exists():
+        try:
+            return json.loads(CURSOR_FILE.read_text())
+        except Exception:
+            pass
+    return {}
+
+
+def _write_cursor(updates: dict) -> None:
+    cursor = _read_cursor()
+    cursor.update(updates)
+    cursor["updated_at"] = datetime.now(timezone.utc).isoformat()
+    CURSOR_FILE.write_text(json.dumps(cursor, indent=2))
 
 
 def _session() -> requests.Session:
@@ -60,14 +78,22 @@ def _file_age_hours(path: Path) -> float:
 # ── 1. Trades refresh ──────────────────────────────────────────────────────────
 
 def _latest_trade_ts() -> int:
-    """Return the most recent trade timestamp (unix seconds) across all parquet files."""
+    """
+    Return the most recent trade timestamp (unix seconds) to use as fetch cursor.
+    Reads from cursor file first (written after each successful refresh),
+    falls back to scanning parquet files if cursor missing.
+    """
+    # Cursor file is the authoritative source — written after every successful fetch
+    cursor = _read_cursor()
+    if "trades_last_ts" in cursor:
+        return int(cursor["trades_last_ts"])
+
+    # No cursor yet — scan parquet files to bootstrap
     import glob, random
     files = glob.glob(str(TRADES_DIR / "*.parquet"))
     if not files:
-        # Default: go back 7 days
         return int((datetime.now(timezone.utc) - timedelta(days=7)).timestamp())
 
-    # Sample up to 500 files to find the latest ts without reading everything
     sample = random.sample(files, min(500, len(files)))
     ts_max_ms = 0
     for f in sample:
@@ -79,10 +105,11 @@ def _latest_trade_ts() -> int:
         except Exception:
             pass
 
-    # timestamp is in milliseconds if > 1e12, else seconds
-    if ts_max_ms > 1e12:
-        return ts_max_ms // 1000
-    return ts_max_ms
+    ts = ts_max_ms // 1000 if ts_max_ms > 1e12 else ts_max_ms
+    # Persist so future runs don't need to scan
+    if ts > 0:
+        _write_cursor({"trades_last_ts": ts})
+    return ts
 
 
 def refresh_trades(session: requests.Session, lookback_buffer_hours: int = 2) -> int:
@@ -186,6 +213,15 @@ def refresh_trades(session: requests.Session, lookback_buffer_hours: int = 2) ->
         if not new_df.empty:
             pq.write_table(pa.Table.from_pandas(new_df, preserve_index=False), out_path)
             written += len(rows)
+
+    # Persist the cursor so next refresh starts from here, not re-scans files
+    if all_trades:
+        all_ts = [int(float(t.get("timestamp", 0) or 0)) for t in all_trades]
+        max_ts = max(all_ts)
+        if max_ts > 1e12:
+            max_ts //= 1000
+        _write_cursor({"trades_last_ts": max_ts})
+        print(f"  Cursor updated to {datetime.fromtimestamp(max_ts, tz=timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}")
 
     print(f"  Wrote {written:,} new trade rows across {len(by_market)} markets.")
     return written
@@ -311,6 +347,7 @@ def refresh_resolutions(session: requests.Session) -> int:
     else:
         print(f"  No new resolutions  (total {len(existing)})")
 
+    _write_cursor({"resolutions_last_run": datetime.now(timezone.utc).isoformat()})
     return len(new_rows)
 
 
